@@ -32,7 +32,7 @@ export default function Footer() {
     };
 
     const communityName = settings?.communityName || "";
-    const primaryEmail = settings?.primaryEmail || "";
+    const primaryEmail = settings?.primaryEmail || "hivemindsist@gmail.com";
     const githubUrl = settings?.github || "";
     const linkedinUrl = settings?.linkedin || "";
     const instagramUrl = settings?.instagram || "";

@@ -591,6 +591,7 @@ export default function CommunitySettingsManagement() {
                                                 type="email"
                                                 value={primaryEmail}
                                                 onChange={(e) => setPrimaryEmail(e.target.value)}
+                                                placeholder="hivemindsist@gmail.com"
                                                 className="bg-white/[0.02] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-gold-primary transition-colors text-xs font-semibold"
                                             />
                                         </div>

@@ -51,7 +51,7 @@ export function buildOrganizationSchema(settings?: Partial<ICommunitySettings> |
     const description = s.aboutCommunity || "";
     const websiteUrl = ensureAbsoluteUrl(s.websiteUrl);
     const logoUrl = ensureAbsoluteUrl(s.logoUrl);
-    const primaryEmail = s.primaryEmail || "";
+    const primaryEmail = s.primaryEmail || "hivemindsist@gmail.com";
     const contactNumber = s.contactNumber || "";
     const foundedYear = s.foundedYear || "";
     const parentOrgName = s.parentOrganization || "";
