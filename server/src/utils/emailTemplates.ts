@@ -184,53 +184,6 @@ export const getBaseEmailTemplate = (contentHtml: string): string => {
 };
 
 // ===============================
-// Python Assessment Campaign Email
-// ===============================
-export const getAssessmentEmail = (whatsappUrl: string = "https://chat.whatsapp.com/Gf5IXE41yTRG2za4c5ki7f"): string => {
-    const contentHtml = `
-        <p style="font-size: 14px; color: #333333; line-height: 1.6; margin-bottom: 16px;">Dear Candidate,</p>
-
-        <p style="font-size: 14px; color: #333333; line-height: 1.6; margin-bottom: 16px;">
-            Congratulations on being selected for the next stage of the
-            <strong>HiveMind Recruitment Process</strong>!
-        </p>
-
-        <p style="font-size: 14px; color: #333333; line-height: 1.6; margin-bottom: 16px;">
-            As part of the selection process, we will be conducting a
-            <strong>Python Assessment</strong>. All assessment-related
-            details, including the topics, date, time, and venue, will be
-            communicated through the official HiveMind WhatsApp Group.
-        </p>
-
-        <p style="font-size: 14px; color: #333333; line-height: 1.6; margin-bottom: 16px;">
-            We have manually added the registered candidates to the
-            WhatsApp Group. If you have not been added or are unable to
-            access the group, please join using the link below:
-        </p>
-
-        <div class="btn-holder" style="text-align: center; margin: 28px 0;">
-            <a
-                href="${whatsappUrl}"
-                class="cat-btn"
-                style="background-color: #000000; color: #ffffff !important; text-decoration: none; padding: 13px 28px; font-size: 14px; font-weight: bold; display: inline-block; border-radius: 4px; letter-spacing: 0.5px;">
-                Join WhatsApp Group
-            </a>
-        </div>
-
-        <p style="font-size: 14px; color: #333333; line-height: 1.6; margin-bottom: 16px;">
-            Please make sure you are a member of the group to receive all
-            important announcements and further instructions regarding
-            the recruitment process.
-        </p>
-
-        <p style="font-size: 14px; color: #333333; line-height: 1.6; margin-bottom: 16px;">
-            We wish you the very best for the upcoming assessment.
-        </p>
-    `;
-    return getBaseEmailTemplate(contentHtml);
-};
-
-// ===============================
 // Candidate Application Welcome Email
 // ===============================
 export const getCandidateWelcomeEmail = (
@@ -332,7 +285,7 @@ export const getLeadsNotificationEmail = (
 
         <div class="btn-holder" style="text-align: center; margin: 24px 0;">
             <a
-                href="https://hivemindsist.dev/admin"
+                href="https://hivemindsist.dev/admin/login"
                 class="cat-btn"
                 style="background-color: #000000; color: #ffffff !important; text-decoration: none; padding: 13px 28px; font-size: 14px; font-weight: bold; display: inline-block; border-radius: 4px; letter-spacing: 0.5px;">
                 Review in Admin Portal
