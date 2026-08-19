@@ -1,0 +1,83 @@
+name: HiveMind Backend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+
+  workflow_dispatch:
+
+concurrency:
+  group: hivemind-backend-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Backend
+
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - hivemind-production
+
+    environment: production
+
+    steps:
+      - name: Verify runner
+        run: |
+          echo "Runner: $(hostname)"
+          echo "User: $(whoami)"
+          docker --version
+          docker compose version
+
+      - name: Update backend source
+        working-directory: /home/superuser/Hosting/HiveMind-Website
+        run: |
+          git fetch origin main
+          git checkout main
+          git checkout origin/main -- server
+
+      - name: Deploy backend
+        working-directory: /home/superuser/Hosting/HiveMind-Website/server
+        run: |
+          docker compose up -d --build
+
+      - name: Wait for backend health
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:5000/health; then
+              echo
+              echo "Backend is healthy."
+              exit 0
+            fi
+
+            echo "Waiting for backend..."
+            sleep 2
+          done
+
+          echo "Backend health check failed."
+
+          docker compose \
+            -f /home/superuser/Hosting/HiveMind-Website/server/docker-compose.yml \
+            logs --tail=100
+
+          exit 1
+
+      - name: Verify Docker container
+        working-directory: /home/superuser/Hosting/HiveMind-Website/server
+        run: |
+          docker compose ps
+
+      - name: Verify public API
+        run: |
+          curl -fsS https://api.hivemindsist.dev/health
+
+      - name: Deployment complete
+        run: |
+          echo "======================================"
+          echo "HiveMind backend deployment successful"
+          echo "API: https://api.hivemindsist.dev"
+          echo "======================================"
