@@ -42,10 +42,15 @@ export const deleteFromCloudinary = async (url: string): Promise<boolean> => {
     const publicId = getPublicIdFromUrl(url);
     if (!publicId) return false;
 
-    const cloudName = process.env.CLOUDINARY_CLOUD_NAME || "n348amus";
-    const apiKey = process.env.CLOUDINARY_API_KEY || "988395172976455";
-    const apiSecret = process.env.CLOUDINARY_API_SECRET || "XC2rrzLs0uU4H8i7A3GD_JnHzvY";
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
     const resourceType = url.includes("/raw/upload/") ? "raw" : "image";
+
+    if (!cloudName || !apiKey || !apiSecret) {
+        console.warn("[Cloudinary] Credentials not configured in environment variables.");
+        return false;
+    }
 
     try {
         const timestamp = Math.round(new Date().getTime() / 1000);

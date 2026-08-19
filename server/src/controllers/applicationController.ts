@@ -145,7 +145,7 @@ export const applyMember = async (req: Request, res: Response) => {
                 });
 
                 // Send to team leads
-                const leadsEnv = process.env.TEAM_LEADS_EMAILS || "lead1@hivemind.org,lead2@hivemind.org";
+                const leadsEnv = process.env.TEAM_LEADS_EMAILS || "";
                 const leadsEmails = leadsEnv
                     .split(",")
                     .map(e => e.trim())
@@ -216,7 +216,7 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
         }
 
         application.status = status;
-        
+
         // Save interview schedule if status is Interviewed or if they are provided
         if (interviewDate !== undefined) {
             application.interviewDate = interviewDate;
@@ -285,8 +285,7 @@ export const deleteApplication = async (req: Request, res: Response) => {
         await Application.findByIdAndDelete(id);
 
         if (resumeUrl) {
-            deleteFromCloudinary(resumeUrl).catch(err =>
-                {}
+            deleteFromCloudinary(resumeUrl).catch(err => { }
             );
         }
 

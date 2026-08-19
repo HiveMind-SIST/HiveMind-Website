@@ -52,7 +52,7 @@ interface SendEmailOptions {
 export const sendEmail = async ({ to, subject, html }: SendEmailOptions) => {
     try {
         const transporter = await getTransporter();
-        const from = process.env.EMAIL_FROM || `"HiveMind Community" <${process.env.EMAIL_USER || "hivemindsist@gmail.com"}>`;
+        const from = process.env.EMAIL_FROM || (process.env.EMAIL_USER ? `"HiveMind Community" <${process.env.EMAIL_USER}>` : "");
 
         const info = await transporter.sendMail({
             from,
