@@ -42,6 +42,7 @@ const communitySettingsSchema = new Schema<ICommunitySettings, CommunitySettings
         primaryEmail: {
             type: String,
             trim: true,
+            default: "hivemindsist@gmail.com",
         },
         contactNumber: {
             type: String,

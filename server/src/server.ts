@@ -36,6 +36,8 @@ const envOrigins = process.env.ALLOWED_ORIGINS
 const allowedOrigins = Array.from(new Set([
     "http://localhost:5173",
     "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
     "https://hivemindsist.dev",
     "https://www.hivemindsist.dev",
     "https://hivemindsist.tech",
@@ -75,16 +77,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// API Routes
-app.use("/v1/admin", authRoutes);
-app.use("/v1/team", teamRoutes);
-app.use("/v1/projects", projectRoutes);
-app.use("/v1/applications", applicationRoutes);
-app.use("/v1/community-settings", communitySettingsRoutes);
-app.use("/v1/master-data", masterDataRoutes);
-app.use("/v1/telemetry", telemetryRoutes);
-app.use("/v1/domains", domainRoutes);
-app.use("/v1/technologies", technologyRoutes);
+// API Routes (Mounted under /v1 and /api/v1 for dev/prod compatibility)
+const routes = [
+    { path: "/admin", router: authRoutes },
+    { path: "/team", router: teamRoutes },
+    { path: "/projects", router: projectRoutes },
+    { path: "/applications", router: applicationRoutes },
+    { path: "/community-settings", router: communitySettingsRoutes },
+    { path: "/master-data", router: masterDataRoutes },
+    { path: "/telemetry", router: telemetryRoutes },
+    { path: "/domains", router: domainRoutes },
+    { path: "/technologies", router: technologyRoutes },
+];
+
+routes.forEach(({ path, router }) => {
+    app.use(`/v1${path}`, router);
+    app.use(`/api/v1${path}`, router);
+});
 
 // Health Check Route (Used for Docker HEALTHCHECK and Cloudflare Tunnel verification)
 app.get(["/health", "/api/health"], (req, res) => {
