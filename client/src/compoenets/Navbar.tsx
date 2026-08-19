@@ -59,16 +59,21 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
     return (
         <>
             <nav
-                className={`fixed top-0 left-0 right-0 w-full z-[100000] flex justify-between items-center px-5 md:px-12 h-16 md:h-20 py-3.5 transition-all duration-300 ${isScrolled
-                    ? "bg-[#050505]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-                    : "bg-black/40 backdrop-blur-md border-b border-white/5 shadow-2xl"
-                    }`}
+                className={`fixed top-0 left-0 right-0 w-full z-[100000] flex justify-between items-center px-5 md:px-12 h-16 md:h-20 py-3.5 transition-all duration-300 overflow-hidden ${
+                    isScrolled
+                        ? "bg-[#050505]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+                        : "bg-black/40 backdrop-blur-md border-b border-white/5 shadow-2xl"
+                }`}
             >
+                {/* Ambient subtle glow */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-full bg-[radial-gradient(ellipse_at_top,rgba(214,168,79,0.06)_0%,transparent_70%)] pointer-events-none z-0 blur-[25px]" />
+
                 {/* Logo Icon Only */}
                 <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="relative z-10"
                 >
                     <Link
                         to="/"
@@ -81,18 +86,18 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                         className="flex items-center no-underline group"
                     >
                         <div className="relative flex items-center justify-center">
-                            <div className="absolute inset-0 bg-gold-primary/20 rounded-full blur-md group-hover:bg-gold-primary/40 transition-all duration-300" />
+                            <div className="absolute inset-0 bg-gold-primary/25 rounded-full blur-md group-hover:bg-gold-primary/50 transition-all duration-300" />
                             <img
                                 src="/assets/logos/HiveMind_logo_bg_removed.webp"
                                 alt="HiveMind Logo"
-                                className="w-8 h-8 md:w-9 md:h-9 object-contain relative z-10"
+                                className="w-8 h-8 md:w-9 md:h-9 object-contain relative z-10 filter drop-shadow-[0_0_16px_rgba(214,168,79,0.4)]"
                             />
                         </div>
                     </Link>
                 </motion.div>
 
                 {/* Desktop Navigation Links */}
-                <ul className="hidden lg:flex items-center gap-8 list-none m-0 p-0">
+                <ul className="hidden lg:flex items-center gap-8 list-none m-0 p-0 relative z-10">
                     {navLinks.map((link) => {
                         const isActive = isLinkActive(link.path);
                         return (
@@ -105,10 +110,11 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                                             window.scrollTo({ top: 0, behavior: "smooth" });
                                         }
                                     }}
-                                    className={`no-underline text-xs font-bold tracking-widest uppercase transition-colors duration-300 ${isActive
-                                        ? "text-gold-primary [text-shadow:0_0_10px_rgba(255,193,7,0.5)]"
-                                        : "text-white/70 hover:text-gold-primary"
-                                        }`}
+                                    className={`no-underline text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 ${
+                                        isActive
+                                            ? "text-gold-primary [text-shadow:0_0_12px_rgba(214,168,79,0.6)]"
+                                            : "text-[#B8B5AA] hover:text-[#D6A84F]"
+                                    }`}
                                 >
                                     {link.name}
                                 </Link>
@@ -122,7 +128,7 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                                             animate={{ scaleX: 1, opacity: 1 }}
                                             exit={{ scaleX: 0, opacity: 0 }}
                                             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                                            className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-gold-light via-gold-primary to-gold-light shadow-[0_0_12px_#FFC107] rounded-full origin-center"
+                                            className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D6A84F] to-transparent shadow-[0_0_12px_#FFC107] origin-center"
                                         />
                                     )}
                                 </AnimatePresence>
@@ -132,9 +138,9 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                 </ul>
 
                 {/* Desktop Join Button */}
-                <div className="hidden lg:block">
+                <div className="hidden lg:block relative z-10">
                     <Link to="/join" className="no-underline">
-                        <button className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] font-extrabold px-6 py-2.5 text-xs tracking-widest uppercase rounded-full cursor-pointer transition-colors duration-200 border-none shadow-[0_2px_12px_rgba(214,168,79,0.25)] hover:shadow-[0_4px_18px_rgba(214,168,79,0.45)]">
+                        <button className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] font-extrabold px-6 py-2.5 text-xs tracking-widest uppercase rounded-full cursor-pointer transition-all duration-200 border-none shadow-[0_2px_15px_rgba(214,168,79,0.35)] hover:shadow-[0_4px_22px_rgba(214,168,79,0.55)]">
                             Join HiveMind
                         </button>
                     </Link>

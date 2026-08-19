@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import HoneycombPattern from "../../compoenets/HoneycombPattern";
 import AmbientGlow from "../../compoenets/AmbientGlow";
+import Footer from "../../compoenets/Footer";
 import { useCommunitySettings } from "../../utils/hooks";
 
 const generationsData = [
@@ -156,6 +157,7 @@ export default function Journey() {
                     </div>
                 </section>
             </main>
+            <Footer />
         </div>
     );
 }

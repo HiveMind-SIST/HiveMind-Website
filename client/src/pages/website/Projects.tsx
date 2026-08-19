@@ -7,6 +7,7 @@ import { CloseIcon, GitHubIcon, LinkedInIcon } from "../../compoenets/icons";
 import AmbientGlow from "../../compoenets/AmbientGlow";
 import Spinner from "../../compoenets/Spinner";
 import Portal from "../../compoenets/Portal";
+import Footer from "../../compoenets/Footer";
 
 const ProjectCard = ({ project, onClick }: { project: Project; onClick: (p: Project) => void }) => {
     return (
@@ -132,8 +133,6 @@ export default function Projects() {
         };
     }, [selectedProject]);
 
-    const ongoingCount = projects.filter(p => p.status === "Ongoing").length;
-    const completedCount = projects.filter(p => p.status === "Completed").length;
 
     const filteredProjects = projects.filter(p => {
         if (activeFilter === "All") return true;
@@ -170,43 +169,28 @@ export default function Projects() {
                                 A portfolio of artificial intelligence research, high-performance systems, and real-world engineering
                             </p>
 
-                            {/* Interactive Status Filter Tabs */}
-                            <div className="inline-flex items-center gap-2 p-1.5 rounded-full bg-[#141412]/90 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-                                <button
-                                    type="button"
-                                    onClick={() => setActiveFilter("All")}
-                                    className={`px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                                        activeFilter === "All"
-                                            ? "bg-[#D6A84F] text-[#0B0B0A] shadow-[0_2px_12px_rgba(214,168,79,0.35)]"
-                                            : "bg-transparent text-[#888888] hover:text-white"
-                                    }`}
-                                >
-                                    All ({projects.length})
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() => setActiveFilter("Ongoing")}
-                                    className={`px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                                        activeFilter === "Ongoing"
-                                            ? "bg-[#D6A84F] text-[#0B0B0A] shadow-[0_2px_12px_rgba(214,168,79,0.35)]"
-                                            : "bg-transparent text-[#888888] hover:text-white"
-                                    }`}
-                                >
-                                    Ongoing ({ongoingCount})
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() => setActiveFilter("Completed")}
-                                    className={`px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                                        activeFilter === "Completed"
-                                            ? "bg-[#D6A84F] text-[#0B0B0A] shadow-[0_2px_12px_rgba(214,168,79,0.35)]"
-                                            : "bg-transparent text-[#888888] hover:text-white"
-                                    }`}
-                                >
-                                    Completed ({completedCount})
-                                </button>
+                            {/* Interactive Status Filter Tabs — smooth sliding pill */}
+                            <div className="inline-flex items-center gap-1 p-1.5 rounded-full bg-[#141412]/90 border border-white/10 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                                {(["All", "Ongoing", "Completed"] as const).map((filter) => (
+                                    <button
+                                        key={filter}
+                                        type="button"
+                                        onClick={() => setActiveFilter(filter)}
+                                        className="relative px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider cursor-pointer transition-colors duration-200"
+                                        style={{ color: activeFilter === filter ? "#0B0B0A" : "#888888" }}
+                                    >
+                                        {activeFilter === filter && (
+                                            <motion.span
+                                                layoutId="filter-pill"
+                                                className="absolute inset-0 rounded-full bg-[#D6A84F] shadow-[0_2px_12px_rgba(214,168,79,0.35)]"
+                                                transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                                            />
+                                        )}
+                                        <span className="relative z-10 hover:text-white" style={{ color: activeFilter === filter ? "#0B0B0A" : undefined }}>
+                                            {filter}
+                                        </span>
+                                    </button>
+                                ))}
                             </div>
                         </motion.div>
                     </div>
@@ -237,6 +221,7 @@ export default function Projects() {
                     )}
                 </section>
             </main>
+            <Footer />
 
             {/* Project Details Modal Popup */}
             {selectedProject && (

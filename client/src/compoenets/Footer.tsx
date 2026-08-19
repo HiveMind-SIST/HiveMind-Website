@@ -275,13 +275,10 @@ export default function Footer() {
                     </motion.div>
                 </div>
 
-                {/* Bottom Copyright & Attribution Section */}
-                <div className="pt-8 mt-6 border-t border-[#D6A84F]/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-[#858278] uppercase tracking-widest font-bold text-center sm:text-left w-full">
+                {/* Bottom Copyright Section */}
+                <div className="pt-8 mt-6 border-t border-[#D6A84F]/15 flex items-center justify-center text-[10px] text-[#858278] uppercase tracking-widest font-bold text-center w-full">
                     <div>
                         © {new Date().getFullYear()} {communityName}. All rights reserved.
-                    </div>
-                    <div className="text-[#858278] tracking-wider text-[9px]">
-                        AI Supercomputing Lab • School of Computing
                     </div>
                 </div>
             </div>

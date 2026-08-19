@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Toast from "../../compoenets/Toast";
+import Footer from "../../compoenets/Footer";
 import ApplicationServices from "../../services/admin/ApplicationServices";
 import CloudinaryServices, { getSafeResumeUrl } from "../../services/cloudinaryService";
 import MasterDataServices, { type IMasterDataOption } from "../../services/admin/MasterDataServices";
 import CommunitySettingsServices from "../../services/admin/CommunitySettingsServices";
 import DomainServices, { type DomainOption } from "../../services/admin/DomainServices";
 import CustomSingleSelect from "../../compoenets/CustomSingleSelect";
-import PageHero from "../../compoenets/PageHero";
 import AmbientGlow from "../../compoenets/AmbientGlow";
 import { useBodyBackground } from "../../utils/hooks";
 import { cardVariants } from "../../utils/motionVariants";
@@ -228,6 +228,108 @@ export default function JoinHiveMind() {
     const [acceptingApplications, setAcceptingApplications] = useState(true);
     const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        let width = (canvas.width = window.innerWidth);
+        let height = (canvas.height = window.innerHeight);
+
+        const colors = ["#FFC107", "#FFD54F", "#FFFFFF"];
+
+        class Particle {
+            x: number;
+            y: number;
+            size: number;
+            color: string;
+            vx: number;
+            vy: number;
+            alpha: number;
+            alphaChange: number;
+
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.vx = (Math.random() - 0.5) * 0.35;
+                this.vy = (Math.random() - 0.5) * 0.35;
+                this.alpha = Math.random();
+                this.alphaChange = Math.random() * 0.02 + 0.005;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+
+                this.alpha += this.alphaChange;
+                if (this.alpha >= 1 || this.alpha <= 0.1) {
+                    this.alphaChange *= -1;
+                }
+            }
+
+            draw() {
+                if (!ctx) return;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = Math.max(0, Math.min(1, this.alpha * 0.65));
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+            }
+        }
+
+        let particles: Particle[] = [];
+        const initParticles = () => {
+            particles = [];
+            for (let i = 0; i < 220; i++) {
+                particles.push(new Particle());
+            }
+        };
+
+        let animId: number;
+        const animate = () => {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach((p) => {
+                p.update();
+                p.draw();
+            });
+            animId = requestAnimationFrame(animate);
+        };
+
+        const handleResize = () => {
+            if (!canvas) return;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        };
+
+        const timer = setTimeout(() => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+            animate();
+        }, 100);
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            clearTimeout(timer);
+            cancelAnimationFrame(animId);
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         document.title = "HiveMind | Join HiveMind";
@@ -567,44 +669,74 @@ export default function JoinHiveMind() {
                 )}
             </AnimatePresence>
 
-            {/* UNIFIED HERO & PAGE CONTENT */}
-            <main className="flex-1 z-10 pt-6 md:pt-10 pb-16 flex flex-col items-center justify-start">
-                <section className="relative flex flex-col items-center bg-transparent text-white pt-2 pb-16 md:pt-4 md:pb-24 px-6 md:px-[10%] z-10 w-full" id="join">
-                    <PageHero
-                        badge="RECRUITMENT • AI SUPERCOMPUTING LAB"
-                        title="JOIN HIVEMIND"
-                        subtitle="BECOME PART OF AN ELITE COMMUNITY BUILDING THE FUTURE OF ARTIFICIAL INTELLIGENCE & INTELLIGENT SYSTEMS"
-                        editorialBadge="RESEARCH, INNOVATION & IMPACT"
-                        editorialHeading={
-                            <>
-                                ARCHITECT THE NEXT ERA OF <span className="text-gold-primary">INTELLIGENT SYSTEMS</span>
-                            </>
-                        }
-                        paragraphs={[
-                            "HiveMind is the premier student-driven Artificial Intelligence and Supercomputing community at Sathyabama Institute of Science and Technology, operating from the AI Supercomputing Lab in the SCAS Block.",
-                            "We empower passionate students across all engineering disciplines to transition from learners to innovators — deploying Large Language Models, Generative Vision systems, Autonomous Agents, and High-Performance Compute clusters."
-                        ]}
-                        highlightParagraph="Zero department barriers. Real hands-on GPU clusters. Tier-1 hackathons, research papers, and production deployments."
-                        sectionId="hero"
-                        catalogueBadge="CAPABILITIES & CULTURE"
-                        catalogueTitle="WHY JOIN HIVEMIND"
-                    />
+            {/* FULL-PAGE CONTENT MATCHING HOME PAGE ARCHITECTURE */}
+            <div className="w-full max-w-full overflow-x-hidden relative min-h-screen bg-[#050505] text-[#F5F3ED]">
+                {/* 1. FULLSCREEN HERO HEADER */}
+                <section
+                    className="relative w-full h-screen min-h-[600px] flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-fixed z-[1] overflow-hidden px-6"
+                    id="hero-section"
+                    style={{ backgroundImage: "url('/assets/backgrounds/hero-bg.webp')" }}
+                >
+                    <div className="absolute inset-0 bg-[#050505]/75 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] z-[2]" />
+                    <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-[#050505] to-transparent z-[4] pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 right-0 h-48 sm:h-72 bg-gradient-to-b from-transparent via-[#050505]/75 to-[#050505] z-[4] pointer-events-none" />
 
-                    {/* Quick Action Apply CTA */}
-                    <div className="relative z-10 flex justify-center -mt-6 mb-16 px-4">
-                        <button
-                            onClick={handleApplyClick}
-                            className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] text-xs font-extrabold uppercase py-3.5 px-10 rounded-full cursor-pointer transition-all duration-200 tracking-widest shadow-[0_4px_20px_rgba(214,168,79,0.3)] hover:shadow-[0_6px_25px_rgba(214,168,79,0.5)] border-none"
+                    {/* Ambient Gold Glow and Particle Engine */}
+                    <div className="absolute w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-[radial-gradient(circle,rgba(255,193,7,0.08)_0%,transparent_65%)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-[3] pointer-events-none animate-[pulseGlowBg_6s_ease-in-out_infinite_alternate]" />
+                    <canvas id="fx-canvas" ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-[4] pointer-events-none" />
+
+                    {/* Centered Typography & Simple CTA */}
+                    <motion.div
+                        className="relative z-[5] text-center select-none max-w-4xl mx-auto flex flex-col items-center px-4"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.2 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                    >
+                        {/* Grand Display Title matching Home page */}
+                        <h1
+                            className="text-[clamp(2.5rem,7.5vw,7.5rem)] font-black tracking-tighter leading-[1.1] mb-6 uppercase drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)] drop-shadow-[0_0_20px_rgba(255,193,7,0.35)]"
+                            id="main-heading"
                         >
-                            Apply For Recruitment
-                        </button>
-                    </div>
+                            <span className="gold-sweep-text inline-block">JOIN</span>{" "}
+                            <span className="hollow-glow-text inline-block">THE HIVE</span>
+                        </h1>
 
-                    {/* SECTION 2: WHY JOIN HIVEMIND (2x2 Grid) */}
-                    <div id="why-join" className="relative pb-24 w-full bg-transparent z-10">
-                        <div className="max-w-5xl mx-auto relative z-10">
+                        {/* Subtitle with subheading-lines matching Home page */}
+                        <h2 className="relative inline-block text-[clamp(0.75rem,1.3vw,1.1rem)] font-bold text-[#E5E5E5] tracking-[0.3em] uppercase subheading-lines mb-10 max-w-2xl px-6">
+                            And Be a part of this dynamic student led community at Sathyabama.
+                        </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        {/* Action CTA Button */}
+                        <div>
+                            <button
+                                onClick={handleApplyClick}
+                                className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] text-xs font-extrabold uppercase py-4 px-10 rounded-full cursor-pointer transition-all duration-300 tracking-widest shadow-[0_4px_25px_rgba(214,168,79,0.4)] hover:shadow-[0_6px_35px_rgba(214,168,79,0.6)] border-none"
+                            >
+                                Apply Now
+                            </button>
+                        </div>
+                    </motion.div>
+                </section>
+
+                {/* 2. WHY JOIN HIVEMIND SECTION */}
+                <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10" id="why-join">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.2 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex flex-col items-center w-full mb-14"
+                    >
+                        <span className="text-xs font-bold text-gold-primary uppercase tracking-[0.3em] mb-3 [text-shadow:0_0_10px_rgba(255,193,7,0.3)]">
+                            Capabilities & Culture
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-wide text-center bg-gradient-to-r from-white via-white to-gold-light bg-clip-text text-transparent">
+                            Why Join HiveMind
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto w-full">
                         {whyJoinCards.map((card, idx) => (
                             <motion.div
                                 key={idx}
@@ -614,41 +746,46 @@ export default function JoinHiveMind() {
                                 whileHover={{ y: -8 }}
                                 viewport={{ once: false, amount: 0.15 }}
                                 variants={cardVariants}
-                                className="bg-white/[0.02] border border-white/5 hover:border-gold-primary/30 rounded-2xl p-8 flex flex-col justify-start h-64 relative group overflow-hidden cursor-pointer transition-[border-color,box-shadow,background-color] duration-400 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[radial-gradient(circle_at_top,rgba(255,193,7,0.05)_0%,transparent_60%)] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-400"
+                                className="bg-white/[0.02] border border-white/5 hover:border-gold-primary/30 rounded-3xl p-8 sm:p-10 flex flex-col justify-start min-h-[300px] relative group overflow-hidden cursor-pointer transition-[border-color,box-shadow,background-color] duration-400 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[radial-gradient(circle_at_top,rgba(255,193,7,0.05)_0%,transparent_60%)] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-400"
                             >
-                                {/* Background illustration */}
                                 {card.illustration}
-
                                 <div className="relative z-10">
-                                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-gold-primary flex items-center justify-center mb-6 group-hover:bg-gold-primary group-hover:text-[#050505] transition-colors duration-300 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)] group-hover:scale-110">
+                                    <div className="w-[60px] h-[60px] rounded-2xl bg-white/5 border border-white/10 text-gold-primary flex items-center justify-center mb-6 group-hover:bg-gold-primary group-hover:text-[#050505] transition-all duration-400 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)] group-hover:scale-110">
                                         {card.icon}
                                     </div>
-                                    <h3 className="text-sm font-bold text-white uppercase tracking-wide mb-3 group-hover:text-gold-primary transition-colors duration-300">
+                                    <h3 className="text-lg sm:text-xl font-bold text-white uppercase tracking-wider mb-3 group-hover:text-gold-primary transition-colors duration-400">
                                         {card.title}
                                     </h3>
-                                    <p className="text-xs text-[#9D9D9D] leading-relaxed max-w-xs">
+                                    <p className="text-xs sm:text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word] font-normal" lang="en">
                                         {card.desc}
                                     </p>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
-                </div>
-            </div>
+                </section>
 
+                {/* 3. SELECTION PROCESS SECTION */}
+                <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10" id="selection-process">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false, amount: 0.2 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex flex-col items-center w-full mb-14"
+                    >
+                        <span className="text-xs font-bold text-gold-primary uppercase tracking-[0.3em] mb-3 [text-shadow:0_0_10px_rgba(255,193,7,0.3)]">
+                            Milestones
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-wide text-center bg-gradient-to-r from-white via-white to-gold-light bg-clip-text text-transparent">
+                            Selection Process
+                        </h2>
+                    </motion.div>
 
-            {/* SECTION 4: SELECTION PROCESS (HORIZONTAL TIMELINE) */}
-            <section className="relative py-24 px-6 md:px-[8%] bg-transparent z-10">
-                <div className="max-w-5xl mx-auto relative z-10">
-                    <SectionHeader eyebrow="Milestones" title="Selection Process" />
-
-                    {/* Horizontal Interactive Timeline Stepper */}
-                    <div className="relative max-w-4xl mx-auto py-12 px-4 overflow-x-auto select-none">
+                    {/* Timeline Stepper */}
+                    <div className="relative max-w-4xl mx-auto py-8 px-4 overflow-x-auto select-none w-full">
                         <div className="min-w-[600px] relative">
-                            {/* Static Pipeline line background */}
                             <div className="absolute left-10 right-10 top-3 h-[1px] bg-white/10 z-0" />
-
-                            {/* Sequential glowing pipeline line */}
                             <motion.div
                                 initial={{ width: 0 }}
                                 whileInView={{ width: "90%" }}
@@ -690,7 +827,7 @@ export default function JoinHiveMind() {
                     </div>
 
                     {/* Step Cards Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto mt-12 w-full">
                         {selectionSteps.map((step, idx) => (
                             <motion.div
                                 key={idx}
@@ -700,78 +837,101 @@ export default function JoinHiveMind() {
                                 whileHover={{ y: -8 }}
                                 viewport={{ once: false, amount: 0.15 }}
                                 variants={cardVariants}
-                                className="bg-white/[0.02] border border-white/5 hover:border-gold-primary/30 rounded-2xl p-6 flex flex-col justify-between min-h-[220px] text-left group relative overflow-hidden cursor-pointer transition-[border-color,box-shadow,background-color] duration-400 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[radial-gradient(circle_at_top,rgba(255,193,7,0.05)_0%,transparent_60%)] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-400"
+                                className="bg-white/[0.02] border border-white/5 hover:border-gold-primary/30 rounded-3xl p-7 sm:p-8 flex flex-col justify-between min-h-[250px] text-left group relative overflow-hidden cursor-pointer transition-[border-color,box-shadow,background-color] duration-400 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[radial-gradient(circle_at_top,rgba(255,193,7,0.05)_0%,transparent_60%)] before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-400"
                             >
-                                <div className="relative z-10">
-                                    <div className="flex justify-between items-center mb-6">
-                                        <span className="text-[9px] font-black uppercase text-gold-primary tracking-wider">
-                                            {step.step}
-                                        </span>
-                                        <div className="p-2 rounded-xl bg-white/5 border border-white/10 text-gold-primary flex items-center justify-center group-hover:bg-gold-primary group-hover:text-[#050505] transition-all duration-300 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)] group-hover:scale-110">
-                                            {step.icon}
+                                <div className="relative z-10 flex flex-col justify-between h-full">
+                                    <div>
+                                        <div className="flex justify-between items-center mb-6">
+                                            <span className="text-[10px] font-black uppercase text-gold-primary tracking-[0.25em]">
+                                                {step.step}
+                                            </span>
+                                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-gold-primary flex items-center justify-center group-hover:bg-gold-primary group-hover:text-[#050505] transition-all duration-400 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)] group-hover:scale-110">
+                                                {step.icon}
+                                            </div>
                                         </div>
+                                        <h3 className="text-base sm:text-lg font-bold text-white uppercase tracking-wider mb-2.5 group-hover:text-gold-primary transition-colors duration-400">
+                                            {step.title}
+                                        </h3>
                                     </div>
-                                    <h3 className="text-sm font-bold text-white uppercase tracking-wide mb-2 group-hover:text-gold-primary transition-colors">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-xs text-[#9D9D9D] leading-relaxed">
+                                    <p className="text-xs sm:text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word] font-normal mt-2" lang="en">
                                         {step.desc}
                                     </p>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* SECTION 5: FAQ */}
-            <section className="relative py-24 px-6 md:px-[8%] bg-transparent z-10">
-                <div className="max-w-3xl mx-auto relative z-10">
-                    <SectionHeader eyebrow="FAQ" title="Frequently Asked Questions" />
-
+                {/* 4. FREQUENTLY ASKED QUESTIONS SECTION */}
+                <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10" id="faq">
                     <motion.div
-                        className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg"
-                        initial={{ opacity: 0, y: 24 }}
+                        initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false, amount: 0.1 }}
-                        transition={{ duration: 0.55, ease: "easeOut" }}
+                        viewport={{ once: false, amount: 0.2 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex flex-col items-center w-full mb-14"
                     >
-                        {faqs.map((faq, idx) => (
-                            <FAQItem
-                                key={idx}
-                                question={faq.question}
-                                answer={faq.answer}
-                                isOpen={openFAQIndex === idx}
-                                onClick={() => setOpenFAQIndex(openFAQIndex === idx ? null : idx)}
-                            />
-                        ))}
+                        <span className="text-xs font-bold text-gold-primary uppercase tracking-[0.3em] mb-3 [text-shadow:0_0_10px_rgba(255,193,7,0.3)]">
+                            FAQ
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-extrabold uppercase tracking-wide text-center bg-gradient-to-r from-white via-white to-gold-light bg-clip-text text-transparent">
+                            Frequently Asked Questions
+                        </h2>
                     </motion.div>
 
-                    {/* BOTTOM CTA */}
+                    <div className="w-full max-w-3xl mx-auto">
+                        <motion.div
+                            className="w-full bg-white/[0.02] border border-white/5 rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg"
+                            initial={{ opacity: 0, y: 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: false, amount: 0.1 }}
+                            transition={{ duration: 0.55, ease: "easeOut" }}
+                        >
+                            {faqs.map((faq, idx) => (
+                                <FAQItem
+                                    key={idx}
+                                    question={faq.question}
+                                    answer={faq.answer}
+                                    isOpen={openFAQIndex === idx}
+                                    onClick={() => setOpenFAQIndex(openFAQIndex === idx ? null : idx)}
+                                />
+                            ))}
+                        </motion.div>
+                    </div>
+                </section>
+
+                {/* 5. BOTTOM CTA SECTION */}
+                <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-20 px-6 md:px-[10%] z-10 text-center" id="cta">
                     <motion.div
-                        className="text-center mt-24 max-w-2xl mx-auto space-y-6"
+                        className="text-center max-w-2xl mx-auto space-y-6"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: false, amount: 0.2 }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                        <h3 className="text-2xl sm:text-4xl font-extrabold text-white uppercase tracking-wide">
+                        <span className="text-xs font-bold text-gold-primary uppercase tracking-[0.3em] mb-3 [text-shadow:0_0_10px_rgba(255,193,7,0.3)] block">
+                            Take The Next Step
+                        </span>
+                        <h3 className="text-3xl sm:text-5xl font-extrabold text-white uppercase tracking-wide bg-gradient-to-r from-white via-white to-gold-light bg-clip-text text-transparent">
                             Ready to Build the Future?
                         </h3>
                         <p className="text-xs sm:text-sm text-[#9D9D9D] leading-relaxed max-w-lg mx-auto">
                             Submit your profile details below to connect with us and take the first step towards joining the lab.
                         </p>
-                        <button
-                            onClick={handleApplyClick}
-                            className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] text-[11px] font-extrabold uppercase py-3.5 px-8 rounded-full cursor-pointer transition-colors duration-200 tracking-widest shadow-[0_4px_20px_rgba(214,168,79,0.25)] inline-block mt-4 border-none"
-                        >
-                            Apply Now
-                        </button>
+                        <div>
+                            <button
+                                onClick={handleApplyClick}
+                                className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] text-xs sm:text-sm font-extrabold uppercase py-3.5 px-9 rounded-full cursor-pointer transition-all duration-200 tracking-widest shadow-[0_4px_25px_rgba(214,168,79,0.3)] hover:shadow-[0_6px_30px_rgba(214,168,79,0.5)] border-none"
+                            >
+                                Apply Now
+                            </button>
+                        </div>
                     </motion.div>
-                </div>
-            </section>
-        </section>
-    </main>
+                </section>
+
+                {/* 6. SITE FOOTER */}
+                <Footer />
+            </div>
 
             {/* RECRUITMENT CLOSED POPUP MODAL */}
             {isClosedModalOpen && createPortal(

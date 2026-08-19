@@ -7,6 +7,7 @@ import { LinkedInIcon, GitHubIcon } from "../../compoenets/icons";
 import PageHero from "../../compoenets/PageHero";
 import AmbientGlow from "../../compoenets/AmbientGlow";
 import Spinner from "../../compoenets/Spinner";
+import Footer from "../../compoenets/Footer";
 
 const HexagonCard = ({ member }: { member: TeamMember }) => {
     const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
@@ -249,6 +250,7 @@ export default function Team() {
                     )}
                 </section>
             </main>
+            <Footer />
         </div>
     );
 }

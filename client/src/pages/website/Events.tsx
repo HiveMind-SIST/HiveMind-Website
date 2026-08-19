@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useCommunitySettings } from "../../utils/hooks";
+import Footer from "../../compoenets/Footer";
 
 const HexSwarm = () => {
     const d = 34.64;
@@ -53,25 +54,17 @@ export default function Events() {
 
     useEffect(() => {
         document.title = "HiveMind | Events";
-        document.body.style.overflow = "hidden";
-
-        return () => {
-            document.body.style.overflow = "";
-        };
     }, []);
 
     const communityName = settings?.communityName || "";
 
     return (
-        <div
-            className="h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-full bg-transparent text-[#F5F3ED] flex flex-col relative overflow-hidden bg-cover bg-center bg-no-repeat"
-        >
-            <div className="absolute inset-0 bg-[#040406]/20 shadow-[inset_0_0_120px_rgba(0,0,0,0.4)] z-0"></div>
-
+        <div className="min-h-screen w-full bg-[#050505] text-[#F5F3ED] flex flex-col relative overflow-x-clip">
+            <div className="absolute inset-0 bg-[#040406]/20 shadow-[inset_0_0_120px_rgba(0,0,0,0.4)] z-0 pointer-events-none" />
             <div className="absolute top-[30%] left-[20%] w-[60%] h-[60%] bg-[radial-gradient(circle,rgba(255,193,7,0.06)_0%,transparent_70%)] pointer-events-none z-0 filter blur-[90px]" />
 
-            <main className="flex-1 z-10 flex flex-col items-center justify-center px-6 overflow-hidden">
-                <div className="relative flex flex-col items-center justify-center max-w-lg w-full text-center py-2">
+            <main className="flex-1 z-10 flex flex-col items-center justify-center min-h-[calc(100vh-120px)] pt-28 pb-16 px-6">
+                <div className="relative flex flex-col items-center justify-center max-w-lg w-full text-center py-2 my-auto">
                     <div className="relative mb-6 flex items-center justify-center">
                         <HexSwarm />
                     </div>
@@ -96,6 +89,7 @@ export default function Events() {
                     </motion.div>
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }
