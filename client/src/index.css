@@ -44,11 +44,6 @@ html {
     overflow-x: hidden;
     scroll-behavior: smooth;
     background-color: #0B0B0A;
-    background-image: url('/assets/backgrounds/gb.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     color: #F5F3ED;
     font-family: 'Plus Jakarta Sans', 'Inter', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 16px;
