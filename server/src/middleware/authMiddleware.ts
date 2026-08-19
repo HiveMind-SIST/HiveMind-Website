@@ -13,7 +13,12 @@ export interface AuthRequest extends Request {
 
 export const protectAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        const token = req.cookies.token;
+        // Extract token from HttpOnly cookie or Authorization: Bearer header
+        let token = req.cookies?.token;
+
+        if (!token && req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+            token = req.headers.authorization.split(" ")[1];
+        }
 
         if (!token) {
             return res.status(401).json({ success: false, message: "Authentication required. Please log in." });

@@ -1,0 +1,28 @@
+# ==============================================================================
+# HiveMind Backend Production Docker Compose
+# Architecture: Cloudflare Tunnel -> 127.0.0.1:5000 -> Container (Port 5000)
+# ==============================================================================
+
+version: "3.8"
+
+services:
+  hivemind-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hivemind-backend
+    restart: unless-stopped
+    # Bind exclusively to 127.0.0.1 on the server host to prevent direct public internet exposure
+    ports:
+      - "127.0.0.1:5000:5000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:5000/health', (r) => {if (r.statusCode === 200) process.exit(0); else process.exit(1);})"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

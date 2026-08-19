@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/authRoutes";
 import teamRoutes from "./routes/teamRoutes";
@@ -20,6 +21,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || "development";
+
+// Enable trust proxy for reverse proxy / Cloudflare Tunnel setups (ensures secure cookies & client IP detection work)
+app.set("trust proxy", 1);
 
 // Connect to Database
 connectDB();
@@ -82,31 +86,54 @@ app.use("/api/v1/telemetry", telemetryRoutes);
 app.use("/api/v1/domains", domainRoutes);
 app.use("/api/v1/technologies", technologyRoutes);
 
-// Health Check Route
+// Health Check Route (Used for Docker HEALTHCHECK and Cloudflare Tunnel verification)
 app.get(["/health", "/api/health"], (req, res) => {
     res.status(200).json({
-        status: "OK",
+        status: "ok",
         service: "HiveMind API Server",
-        environment: NODE_ENV,
-        port: PORT,
         timestamp: new Date().toISOString()
     });
 });
 
-
-// Run Server with startup log
-app.listen(PORT, () => {
-    console.clear();
+// Start Server
+const server = app.listen(PORT, () => {
+    if (NODE_ENV === "development") {
+        console.clear();
+    }
 
     console.log(`
 🚀 HiveMind API
-
 Status       : Running
 Environment  : ${NODE_ENV}
 Port         : ${PORT}
-Database     : MongoDB Connected
-API Base     : http://localhost:${PORT}/api
-Health Check : http://localhost:${PORT}/health
+API Base     : http://127.0.0.1:${PORT}/api/v1
+Health Check : http://127.0.0.1:${PORT}/health
 Started At   : ${new Date().toLocaleString()}
 `);
 });
+
+// Graceful Shutdown Handlers
+const handleShutdown = async (signal: string) => {
+    console.log(`[${signal}] Received shutdown signal. Closing HTTP server and database connections gracefully...`);
+    
+    server.close(async () => {
+        console.log("HTTP server closed.");
+        try {
+            await mongoose.connection.close(false);
+            console.log("MongoDB connection closed cleanly.");
+            process.exit(0);
+        } catch (err) {
+            console.error("Error closing MongoDB connection:", err);
+            process.exit(1);
+        }
+    });
+
+    // Force exit if shutdown takes longer than 10 seconds
+    setTimeout(() => {
+        console.error("Forceful shutdown: connections took too long to close.");
+        process.exit(1);
+    }, 10000);
+};
+
+process.on("SIGTERM", () => handleShutdown("SIGTERM"));
+process.on("SIGINT", () => handleShutdown("SIGINT"));
