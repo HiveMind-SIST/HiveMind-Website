@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import authService, { type AdminUser } from "../../services/admin/authService";
@@ -27,8 +27,26 @@ export default function TeamManagement() {
     // Drag and Drop reordering state
     const [draggedMemberIndex, setDraggedMemberIndex] = useState<number | null>(null);
     const [dragOverMemberIndex, setDragOverMemberIndex] = useState<number | null>(null);
+    const mainScrollContainerRef = useRef<HTMLDivElement>(null);
 
     const isFilteringActive = Boolean(searchQuery || selectedDept || selectedYear || selectedGeneration);
+
+    const handleAutoScroll = (clientY: number) => {
+        if (!mainScrollContainerRef.current) return;
+        const container = mainScrollContainerRef.current;
+        const rect = container.getBoundingClientRect();
+        const scrollThreshold = 150; // trigger zone near edges
+
+        if (clientY > rect.bottom - scrollThreshold) {
+            // Scroll down
+            const intensity = Math.min(1, Math.max(0.15, (clientY - (rect.bottom - scrollThreshold)) / scrollThreshold));
+            container.scrollTop += Math.round(intensity * 35);
+        } else if (clientY < rect.top + scrollThreshold) {
+            // Scroll up
+            const intensity = Math.min(1, Math.max(0.15, ((rect.top + scrollThreshold) - clientY) / scrollThreshold));
+            container.scrollTop -= Math.round(intensity * 35);
+        }
+    };
 
     const handleDragStart = (index: number, e: React.DragEvent) => {
         if (isFilteringActive) return; // Disable when filtering
@@ -44,6 +62,13 @@ export default function TeamManagement() {
         if (dragOverMemberIndex !== index) {
             setDragOverMemberIndex(index);
         }
+        handleAutoScroll(e.clientY);
+    };
+
+    const handleContainerDragOver = (e: React.DragEvent) => {
+        if (draggedMemberIndex === null || isFilteringActive) return;
+        e.preventDefault();
+        handleAutoScroll(e.clientY);
     };
 
     const handleDrop = async (targetIndex: number, e: React.DragEvent) => {
@@ -672,7 +697,11 @@ export default function TeamManagement() {
             />
 
             {/* MAIN WORKSPACE */}
-            <div className={`flex-1 flex flex-col min-w-0 h-full z-10 overflow-y-auto ${isModalOpen || memberToDelete || isSaving ? "pointer-events-none select-none" : ""}`}>
+            <div
+                ref={mainScrollContainerRef}
+                onDragOver={handleContainerDragOver}
+                className={`flex-1 flex flex-col min-w-0 h-full z-10 overflow-y-auto ${isModalOpen || memberToDelete || isSaving ? "pointer-events-none select-none" : ""}`}
+            >
                 {/* Mobile Top Header */}
                 <header className="lg:hidden flex justify-between items-center bg-white/[0.02] border-b border-white/5 p-4 shadow-md backdrop-blur-md sticky top-0 z-30">
                     <div className="flex items-center gap-3">

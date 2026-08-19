@@ -57,7 +57,7 @@ function CollaboratorSelect({
             {isOpen && (
                 <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-                    <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#0c0c0e] border border-white/10 rounded-lg shadow-2xl z-50 max-h-[180px] overflow-y-auto p-2.5 space-y-2">
+                    <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#0c0c0e] border border-white/10 rounded-lg shadow-2xl z-50 max-h-[320px] overflow-y-auto p-2.5 space-y-2">
                         {/* Search Input */}
                         <div className="px-1 py-0.5">
                             <input

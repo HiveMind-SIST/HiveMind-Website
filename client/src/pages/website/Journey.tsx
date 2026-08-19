@@ -124,21 +124,21 @@ export default function Journey() {
                                     className="relative flex flex-col items-center text-center w-full max-w-sm bg-[#0c0c0e]/30 backdrop-blur-md border border-white/5 hover:border-gold-primary/30 rounded-3xl p-6 sm:p-8 transition-[border-color,background-color] duration-300 shadow-[0_15px_35px_rgba(0,0,0,0.6)] cursor-default group"
                                 >
                                     <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold-primary/20 to-transparent" />
-                                    
+
                                     <span className="text-[10px] font-black text-gold-primary tracking-[0.25em] uppercase mb-2 block">
                                         {gen.label}
                                     </span>
-                                    
+
                                     <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-wide mb-1 transition-colors duration-300 group-hover:text-gold-light">
                                         {gen.title}
                                     </h3>
-                                    
+
                                     <span className="text-xs text-[#888888] font-medium tracking-wide uppercase block mb-4 italic">
                                         "{gen.tagline}"
                                     </span>
-                                    
+
                                     <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-gold-primary/30 to-transparent mb-5" />
-                                    
+
                                     <p className="text-xs sm:text-sm text-[#AAAAAA] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word] mb-8 flex-1">
                                         {gen.desc}
                                     </p>

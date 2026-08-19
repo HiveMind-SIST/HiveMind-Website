@@ -3,7 +3,7 @@ interface IconProps {
     size?: number;
 }
 
-export function LinkedInIcon({ className = "group-hover:scale-110 transition-transform", size = 18 }: IconProps) {
+export function LinkedInIcon({ className = "transition-colors", size = 18 }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@ export function LinkedInIcon({ className = "group-hover:scale-110 transition-tra
     );
 }
 
-export function GitHubIcon({ className = "group-hover:scale-110 transition-transform", size = 17 }: IconProps) {
+export function GitHubIcon({ className = "transition-colors", size = 17 }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +43,7 @@ export function GitHubIcon({ className = "group-hover:scale-110 transition-trans
     );
 }
 
-export function InstagramIcon({ className = "group-hover:scale-110 transition-transform", size = 18 }: IconProps) {
+export function InstagramIcon({ className = "transition-colors", size = 18 }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

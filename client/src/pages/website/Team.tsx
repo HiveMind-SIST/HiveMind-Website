@@ -74,14 +74,12 @@ const HexagonCard = ({ member }: { member: TeamMember }) => {
 
                 {/* Hover / Tap overlay details */}
                 <div
-                    className={`absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent flex flex-col items-center justify-end pb-10 sm:pb-12 px-6 text-center transition-opacity duration-300 z-10 select-none ${
-                        isActive ? "opacity-100 pointer-events-auto" : "opacity-0 group-hover:opacity-100"
-                    }`}
+                    className={`absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent flex flex-col items-center justify-end pb-10 sm:pb-12 px-6 text-center transition-opacity duration-300 z-10 select-none ${isActive ? "opacity-100 pointer-events-auto" : "opacity-0 group-hover:opacity-100"
+                        }`}
                 >
                     <div
-                        className={`transition-transform duration-500 ease-out flex flex-col items-center w-full ${
-                            isActive ? "translate-y-0" : "transform translate-y-6 group-hover:translate-y-0"
-                        }`}
+                        className={`transition-transform duration-500 ease-out flex flex-col items-center w-full ${isActive ? "translate-y-0" : "transform translate-y-6 group-hover:translate-y-0"
+                            }`}
                     >
                         <div className="flex flex-col items-center">
                             <span className="name-glow-transition text-base sm:text-lg font-extrabold uppercase tracking-wider block mb-1 select-none">
@@ -98,9 +96,8 @@ const HexagonCard = ({ member }: { member: TeamMember }) => {
                                 </span>
                             )}
                             <div
-                                className={`h-[1.5px] bg-gradient-to-r from-transparent via-gold-primary to-transparent transition-all duration-500 ease-out mb-4 shadow-[0_0_8px_#FFC107] ${
-                                    isActive ? "w-12" : "w-0 group-hover:w-12"
-                                }`}
+                                className={`h-[1.5px] bg-gradient-to-r from-transparent via-gold-primary to-transparent transition-all duration-500 ease-out mb-4 shadow-[0_0_8px_#FFC107] ${isActive ? "w-12" : "w-0 group-hover:w-12"
+                                    }`}
                             />
                         </div>
 

@@ -38,8 +38,9 @@ function ScrollToTop() {
 }
 
 export default function App() {
-    const isAdminRoute = window.location.pathname.startsWith("/admin");
-    const [showSplash, setShowSplash] = useState(!isAdminRoute);
+    const pathname = window.location.pathname.toLowerCase().replace(/\/$/, "") || "/";
+    // Only show splash screen on initial visit to the home page "/"
+    const [showSplash, setShowSplash] = useState(pathname === "/");
 
     if (showSplash) {
         return <SplashScreen onComplete={() => setShowSplash(false)} />;
@@ -50,7 +51,7 @@ export default function App() {
             <CanonicalTag />
             <OrganizationSchema />
             <WebSiteSchema />
-            <div className="w-full max-w-full overflow-x-hidden relative min-h-screen bg-[#050505] text-white">
+            <div className="w-full max-w-full overflow-x-hidden relative min-h-screen bg-transparent text-[#F5F3ED]">
 
                 <ScrollToTop />
                 <Navbar showSplash={false} />

@@ -59,11 +59,10 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
     return (
         <>
             <nav
-                className={`fixed top-0 left-0 right-0 w-full z-[100000] flex justify-between items-center px-5 md:px-12 h-16 md:h-20 py-3.5 transition-all duration-300 ${
-                    isScrolled
-                        ? "bg-[#050505]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-                        : "bg-black/40 backdrop-blur-md border-b border-white/5 shadow-2xl"
-                }`}
+                className={`fixed top-0 left-0 right-0 w-full z-[100000] flex justify-between items-center px-5 md:px-12 h-16 md:h-20 py-3.5 transition-all duration-300 ${isScrolled
+                    ? "bg-[#050505]/90 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+                    : "bg-black/40 backdrop-blur-md border-b border-white/5 shadow-2xl"
+                    }`}
             >
                 {/* Logo Icon Only */}
                 <motion.div
@@ -106,11 +105,10 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                                             window.scrollTo({ top: 0, behavior: "smooth" });
                                         }
                                     }}
-                                    className={`no-underline text-xs font-bold tracking-widest uppercase transition-colors duration-300 ${
-                                        isActive
-                                            ? "text-gold-primary [text-shadow:0_0_10px_rgba(255,193,7,0.5)]"
-                                            : "text-white/70 hover:text-gold-primary"
-                                    }`}
+                                    className={`no-underline text-xs font-bold tracking-widest uppercase transition-colors duration-300 ${isActive
+                                        ? "text-gold-primary [text-shadow:0_0_10px_rgba(255,193,7,0.5)]"
+                                        : "text-white/70 hover:text-gold-primary"
+                                        }`}
                                 >
                                     {link.name}
                                 </Link>
@@ -134,23 +132,18 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                 </ul>
 
                 {/* Desktop Join Button */}
-                <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    className="hidden lg:block"
-                >
+                <div className="hidden lg:block">
                     <Link to="/join" className="no-underline">
-                        <button className="relative overflow-hidden bg-gradient-to-br from-gold-primary via-[#F5D061] to-[#D4AF37] text-black border-none px-6 py-2.5 text-xs font-extrabold tracking-widest uppercase rounded-full cursor-pointer shadow-[0_4px_15px_rgba(255,193,7,0.35)] hover:shadow-[0_4px_25px_rgba(255,193,7,0.6)] transition-all duration-300">
+                        <button className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] font-extrabold px-6 py-2.5 text-xs tracking-widest uppercase rounded-full cursor-pointer transition-colors duration-200 border-none shadow-[0_2px_12px_rgba(214,168,79,0.25)] hover:shadow-[0_4px_18px_rgba(214,168,79,0.45)]">
                             Join HiveMind
                         </button>
                     </Link>
-                </motion.div>
+                </div>
 
                 {/* Mobile Right Bar: JOIN US Pill Button + In-Place Hamburger/'X' Toggle */}
                 <div className="flex lg:hidden items-center gap-3">
                     <Link to="/join" className="no-underline">
-                        <button className="bg-gradient-to-r from-gold-primary via-[#F5D061] to-[#D4AF37] text-black font-extrabold text-[10px] sm:text-[11px] tracking-widest uppercase py-2 px-4.5 rounded-full shadow-[0_2px_10px_rgba(255,193,7,0.3)] hover:shadow-[0_4px_15px_rgba(255,193,7,0.5)] transition-all cursor-pointer border-none">
+                        <button className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] font-extrabold text-[10px] sm:text-[11px] tracking-widest uppercase py-2 px-4.5 rounded-full transition-colors duration-200 cursor-pointer border-none shadow-[0_2px_10px_rgba(214,168,79,0.25)]">
                             JOIN US
                         </button>
                     </Link>
@@ -215,7 +208,7 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                         className="fixed inset-0 z-[99999] bg-[#0B0B0B]/98 backdrop-blur-2xl flex flex-col justify-between pt-24 pb-8 px-6 sm:px-10 select-none overflow-hidden"
                     >
                         {/* Background Radial Glow */}
-                        <div 
+                        <div
                             className="absolute inset-0 pointer-events-none"
                             style={{
                                 background: "radial-gradient(circle at 50% 40%, rgba(255, 193, 7, 0.08) 0%, rgba(11, 11, 11, 0) 70%)"
@@ -223,7 +216,7 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                         />
 
                         {/* Centered Navigation Links Stack */}
-                        <motion.div 
+                        <motion.div
                             className="flex-1 flex flex-col justify-center items-center gap-7 text-center z-10 py-6"
                             initial="closed"
                             animate="open"
@@ -254,14 +247,13 @@ export default function Navbar({ showSplash = false }: { showSplash?: boolean })
                                                     window.scrollTo({ top: 0, behavior: "smooth" });
                                                 }
                                             }}
-                                            className={`text-2xl sm:text-3xl font-extrabold tracking-[0.15em] uppercase transition-all duration-300 no-underline py-1 flex flex-col items-center ${
-                                                isActive
-                                                    ? "text-gold-primary drop-shadow-[0_0_15px_rgba(255,193,7,0.5)]"
-                                                    : "text-white/80 hover:text-gold-primary"
-                                            }`}
+                                            className={`text-2xl sm:text-3xl font-extrabold tracking-[0.15em] uppercase transition-all duration-300 no-underline py-1 flex flex-col items-center ${isActive
+                                                ? "text-gold-primary drop-shadow-[0_0_15px_rgba(255,193,7,0.5)]"
+                                                : "text-white/80 hover:text-gold-primary"
+                                                }`}
                                         >
                                             <span>{link.name}</span>
-                                            
+
                                             {isActive && (
                                                 <motion.div
                                                     layoutId="mobile-active-underline"

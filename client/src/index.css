@@ -2,10 +2,19 @@
 @import "tailwindcss";
 
 @theme {
-    --color-gold-primary: #FFC107;
-    --color-gold-light: #FFD54F;
-    --color-dark-bg: #050505;
-    --color-white: #FFFFFF;
+    --color-gold-primary: #D6A84F;
+    --color-gold-light: #F0C766;
+    --color-gold-dark: #9C762F;
+    --color-dark-bg: #0B0B0A;
+    --color-dark-secondary: #11110F;
+    --color-card-surface: #171714;
+    --color-card-elevated: #1E1E1A;
+    --color-border-subtle: #2A2A25;
+    --color-border-strong: #3A3932;
+    --color-text-primary: #F5F3ED;
+    --color-text-secondary: #B8B5AA;
+    --color-text-muted: #858278;
+    --color-white: #F5F3ED;
 }
 
 /* ==========================================================================
@@ -17,12 +26,15 @@
 }
 
 * {
-    -ms-overflow-style: none !important; /* IE and Edge */
-    scrollbar-width: none !important; /* Firefox */
+    -ms-overflow-style: none !important;
+    /* IE and Edge */
+    scrollbar-width: none !important;
+    /* Firefox */
 }
 
 :root {
-    --glow-intensity: 15px; /* Modifiable via JS for mouse interaction */
+    --glow-intensity: 15px;
+    /* Modifiable via JS for mouse interaction */
 }
 
 body,
@@ -31,8 +43,13 @@ html {
     height: 100%;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    background-color: #050505;
-    color: #FFFFFF;
+    background-color: #0B0B0A;
+    background-image: url('/assets/backgrounds/gb.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #F5F3ED;
     font-family: 'Plus Jakarta Sans', 'Inter', 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 16px;
     line-height: 1.65;
@@ -53,13 +70,25 @@ input[type=number] {
 
 /* Global Keyframes */
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
 }
 
 /* ==========================================================================
@@ -85,6 +114,7 @@ input[type=number] {
 .admin-workspace aside button {
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .admin-workspace aside button:hover {
     transform: translateX(4px);
 }
@@ -94,6 +124,7 @@ input[type=number] {
         opacity: 0;
         transform: translateY(12px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -107,6 +138,7 @@ input[type=number] {
 .admin-card-hover {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .admin-card-hover:hover {
     transform: translateY(-2px);
     border-color: rgba(255, 193, 7, 0.15) !important;
@@ -126,6 +158,7 @@ input[type=number] {
 
 /* Subheading Side Lines */
 @media (min-width: 768px) {
+
     .subheading-lines::before,
     .subheading-lines::after {
         content: '';
@@ -203,8 +236,13 @@ input[type=number] {
    CUSTOM ANIMATION KEYFRAMES
    ========================================================================== */
 @keyframes lightSweep {
-    0% { background-position: 200% center; }
-    100% { background-position: -200% center; }
+    0% {
+        background-position: 200% center;
+    }
+
+    100% {
+        background-position: -200% center;
+    }
 }
 
 @keyframes pulseGlowBg {
@@ -212,6 +250,7 @@ input[type=number] {
         opacity: 0.6;
         transform: translate(-50%, -50%) scale(0.95);
     }
+
     100% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1.05);
@@ -223,6 +262,7 @@ input[type=number] {
         transform: scale(0.9);
         opacity: 0.8;
     }
+
     100% {
         transform: scale(1.1);
         opacity: 1;
@@ -235,8 +275,15 @@ input[type=number] {
 }
 
 @keyframes blinkCursor {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 /* Toast Slide In Animation */
@@ -245,47 +292,59 @@ input[type=number] {
         transform: translateX(120%) scale(0.95);
         opacity: 0;
     }
+
     100% {
         transform: translateX(0) scale(1);
         opacity: 1;
     }
 }
+
 .animate-toast-slide-in {
     animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Admin Loader Animation */
 .loader {
-  width: 50px;
-  aspect-ratio: 1;
-  display: grid;
-  border: 4px solid #0000;
-  border-radius: 50%;
-  border-right-color: #FFC107;
-  animation: l15 1s infinite linear;
-  filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.4));
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    border: 4px solid #0000;
+    border-radius: 50%;
+    border-right-color: #FFC107;
+    animation: l15 1s infinite linear;
+    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.4));
 }
+
 .loader::before,
-.loader::after {    
-  content: "";
-  grid-area: 1/1;
-  margin: 2px;
-  border: inherit;
-  border-radius: 50%;
-  animation: l15 2s infinite;
-}
 .loader::after {
-  margin: 8px;
-  animation-duration: 3s;
+    content: "";
+    grid-area: 1/1;
+    margin: 2px;
+    border: inherit;
+    border-radius: 50%;
+    animation: l15 2s infinite;
 }
-@keyframes l15{ 
-  100%{transform: rotate(1turn)}
+
+.loader::after {
+    margin: 8px;
+    animation-duration: 3s;
+}
+
+@keyframes l15 {
+    100% {
+        transform: rotate(1turn)
+    }
 }
 
 /* Infinite Scrolling Testimonials Marquee */
 @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .animate-marquee {
@@ -311,30 +370,81 @@ input[type=number] {
 }
 
 @keyframes adminFadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 /* ==========================================================================
    GLOBAL TYPOGRAPHY OVERRIDES FOR BOLD READABILITY
    ========================================================================== */
-.text-xs { font-size: 0.875rem; }
-.text-sm { font-size: 1rem; }
-.text-base { font-size: 1.125rem; }
-.text-lg { font-size: 1.25rem; }
-.text-xl { font-size: 1.5rem; }
-.text-2xl { font-size: 1.75rem; }
-.text-3xl { font-size: 2.25rem; }
-.text-4xl { font-size: 3rem; }
-.text-5xl { font-size: 3.75rem; }
+.text-xs {
+    font-size: 0.875rem;
+}
 
-.text-\[8px\] { font-size: 11px; }
-.text-\[9px\] { font-size: 12px; }
-.text-\[10px\] { font-size: 13px; }
-.text-\[11px\] { font-size: 14px; }
-.text-\[12px\] { font-size: 15px; }
-.text-\[13px\] { font-size: 15px; }
-.text-\[14px\] { font-size: 16px; }
+.text-sm {
+    font-size: 1rem;
+}
+
+.text-base {
+    font-size: 1.125rem;
+}
+
+.text-lg {
+    font-size: 1.25rem;
+}
+
+.text-xl {
+    font-size: 1.5rem;
+}
+
+.text-2xl {
+    font-size: 1.75rem;
+}
+
+.text-3xl {
+    font-size: 2.25rem;
+}
+
+.text-4xl {
+    font-size: 3rem;
+}
+
+.text-5xl {
+    font-size: 3.75rem;
+}
+
+.text-\[8px\] {
+    font-size: 11px;
+}
+
+.text-\[9px\] {
+    font-size: 12px;
+}
+
+.text-\[10px\] {
+    font-size: 13px;
+}
+
+.text-\[11px\] {
+    font-size: 14px;
+}
+
+.text-\[12px\] {
+    font-size: 15px;
+}
+
+.text-\[13px\] {
+    font-size: 15px;
+}
+
+.text-\[14px\] {
+    font-size: 16px;
+}
 
 /* ==========================================================================
    REUSABLE SOCIAL MEDIA BRAND STYLES
@@ -344,35 +454,33 @@ input[type=number] {
     align-items: center;
     justify-content: center;
     border-radius: 9999px;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #999999;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .social-btn-github:hover {
     background-color: #24292E !important;
     color: #ffffff !important;
-    border-color: transparent !important;
-    box-shadow: 0 0 22px rgba(255, 255, 255, 0.45) !important;
-    transform: translateY(-4px) scale(1.05);
+    border-color: #444d56 !important;
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.2) !important;
 }
 
 .social-btn-linkedin:hover {
     background-color: #0A66C2 !important;
     color: #ffffff !important;
-    border-color: transparent !important;
-    box-shadow: 0 0 22px rgba(10, 102, 194, 0.7) !important;
-    transform: translateY(-4px) scale(1.05);
+    border-color: #0A66C2 !important;
+    box-shadow: 0 0 16px rgba(10, 102, 194, 0.4) !important;
 }
 
 .social-btn-instagram:hover {
-    background-image: linear-gradient(to top right, #f9ce34, #ee2a7b, #6228d7) !important;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
     color: #ffffff !important;
-    border-color: transparent !important;
-    box-shadow: 0 0 22px rgba(238, 42, 123, 0.75) !important;
-    transform: translateY(-4px) scale(1.05);
+    border-color: #fd5949 !important;
+    box-shadow: 0 0 16px rgba(220, 39, 67, 0.4) !important;
 }
 
 .name-glow-transition {

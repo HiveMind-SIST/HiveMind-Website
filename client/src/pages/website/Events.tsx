@@ -64,8 +64,7 @@ export default function Events() {
 
     return (
         <div
-            className="h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-full bg-[#050505] text-white flex flex-col relative overflow-hidden bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/assets/backgrounds/gb.webp')" }}
+            className="h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-full bg-transparent text-[#F5F3ED] flex flex-col relative overflow-hidden bg-cover bg-center bg-no-repeat"
         >
             <div className="absolute inset-0 bg-[#040406]/20 shadow-[inset_0_0_120px_rgba(0,0,0,0.4)] z-0"></div>
 

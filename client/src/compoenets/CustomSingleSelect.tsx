@@ -56,7 +56,7 @@ export default function CustomSingleSelect({
             </div>
 
             {isOpen && (
-                <div className={`absolute top-[100%] left-0 right-0 mt-1 ${dropdownBgClass} border border-white/10 rounded-xl shadow-2xl z-[9999] max-h-[148px] overflow-y-auto p-2 space-y-1`}>
+                <div className={`absolute top-[100%] left-0 right-0 mt-1 ${dropdownBgClass} border border-white/10 rounded-xl shadow-2xl z-[9999] max-h-[320px] overflow-y-auto p-2 space-y-1`}>
                     {options.map((opt, idx) => {
                         const isSelected = opt.value === value;
                         return (

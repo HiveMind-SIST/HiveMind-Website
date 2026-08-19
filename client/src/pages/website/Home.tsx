@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import HeroSection from "../../compoenets/HeroSection";
 import Footer from "../../compoenets/Footer";
+import AboutSlideshow from "../../compoenets/AboutSlideshow";
 import { motion } from "framer-motion";
 import { useCommunitySettings } from "../../utils/hooks";
 import { cardVariants } from "../../utils/motionVariants";
@@ -22,7 +23,7 @@ function AboutSection({ settings }: AboutSectionProps) {
     const description = settings?.aboutCommunity || "";
 
     return (
-        <section className="relative flex flex-col items-center bg-[#050505] text-white py-16 md:py-24 px-6 md:px-[10%] border-b border-white/5 z-10" id="about">
+        <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10" id="about">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -39,34 +40,25 @@ function AboutSection({ settings }: AboutSectionProps) {
             </motion.div>
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-                className="w-full max-w-4xl mx-auto mb-10"
-            >
-                <picture>
-                    <source srcSet="/assets/images/grp-pic.webp" type="image/webp" />
-                    <img
-                        src="/assets/images/grp-pic.jpg"
-                        alt="HiveMind Community Group Photo"
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full rounded-2xl object-cover border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.6)]"
-                    />
-                </picture>
-            </motion.div>
-
-            <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false, amount: 0.2 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                className="w-full max-w-4xl mx-auto"
+                transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+                className="w-full max-w-4xl mx-auto mb-10"
             >
-                <p className="text-base md:text-lg leading-[1.8] text-[#CCCCCC] text-justify [hyphens:auto] [text-justify:inter-word]">
+                <p className="text-base md:text-lg leading-[1.8] text-[#CCCCCC] text-justify [hyphens:auto] [text-justify:inter-word]" lang="en">
                     {description}
                 </p>
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
+                className="w-full max-w-4xl mx-auto"
+            >
+                <AboutSlideshow />
             </motion.div>
         </section>
     );
@@ -77,7 +69,7 @@ function AboutSection({ settings }: AboutSectionProps) {
 // ==========================================
 function MissionSection() {
     return (
-        <section className="relative flex flex-col items-center bg-[#050505] text-white py-16 md:py-24 px-6 md:px-[10%] border-b border-white/5 z-10" id="mission">
+        <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10" id="mission">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -93,73 +85,82 @@ function MissionSection() {
                 </h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
-                {/* Pillar 1: Explore */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 w-full max-w-7xl">
+                {/* Pillar 1: Innovate */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
                     whileHover={{ y: -8 }}
                     viewport={{ once: false, amount: 0.15 }}
                     variants={cardVariants}
-                    className="group relative bg-white/[0.02] border border-white/5 rounded-2xl p-8 sm:p-10 text-center transition-[border-color,box-shadow,background-color] duration-400 flex flex-col items-center hover:border-gold-primary/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] overflow-hidden"
+                    className="group relative bg-white/[0.02] border border-white/5 rounded-2xl p-8 sm:p-10 lg:p-12 text-center transition-[border-color,box-shadow,background-color] duration-400 flex flex-col items-center justify-between min-h-[360px] lg:min-h-[390px] hover:border-gold-primary/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] overflow-hidden"
                 >
-                    <div className="relative z-10 w-[70px] h-[70px] rounded-full bg-white/5 border border-white/10 flex justify-center items-center mb-8 text-gold-primary transition-all duration-400 group-hover:bg-gold-primary group-hover:text-black group-hover:scale-110 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M16.2 7.8l-2 5.6-5.6 2 2-5.6 5.6-2z" />
-                        </svg>
+                    <div className="flex flex-col items-center w-full">
+                        <div className="relative z-10 w-[72px] h-[72px] rounded-full bg-white/5 border border-white/10 flex justify-center items-center mb-7 text-gold-primary transition-all duration-400 group-hover:bg-gold-primary group-hover:text-black group-hover:scale-110 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                                <circle cx="12" cy="12" r="4" />
+                            </svg>
+                        </div>
+                        <h3 className="relative z-10 text-xl font-bold mb-4 text-white tracking-wider uppercase transition-colors duration-400 group-hover:text-gold-primary">
+                            Innovate
+                        </h3>
                     </div>
-                    <h3 className="relative z-10 text-lg font-bold mb-4 text-white tracking-wider uppercase transition-colors duration-400 group-hover:text-gold-primary">
-                        Explore
-                    </h3>
-                    <p className="relative z-10 text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word]">
-                        Curiosity-driven mapping of emerging AI fields. We dive deep into theoretical foundations, investigate new frameworks, and dissect cutting-edge literature to understand where technology is going.
+                    <p className="relative z-10 text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word] font-normal mt-auto" lang="en">
+                        Curiosity-driven exploration of frontier intelligence. We dive deep into cutting-edge machine learning literature, dissect novel neural architectures, and push beyond conventional boundaries.
                     </p>
                 </motion.div>
 
-                {/* Pillar 2: Build */}
+                {/* Pillar 2: Engineer */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
                     whileHover={{ y: -8 }}
                     viewport={{ once: false, amount: 0.15 }}
                     variants={cardVariants}
-                    className="group relative bg-white/[0.02] border border-white/5 rounded-2xl p-8 sm:p-10 text-center transition-[border-color,box-shadow,background-color] duration-400 flex flex-col items-center hover:border-gold-primary/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] overflow-hidden"
+                    className="group relative bg-white/[0.02] border border-white/5 rounded-2xl p-8 sm:p-10 lg:p-12 text-center transition-[border-color,box-shadow,background-color] duration-400 flex flex-col items-center justify-between min-h-[360px] lg:min-h-[390px] hover:border-gold-primary/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] overflow-hidden"
                 >
-                    <div className="relative z-10 w-[70px] h-[70px] rounded-full bg-white/5 border border-white/10 flex justify-center items-center mb-8 text-gold-primary transition-all duration-400 group-hover:bg-gold-primary group-hover:text-black group-hover:scale-110 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M16.5 9.4 7.55 4.24a1.79 1.79 0 0 0-1.8 0L2.5 6v12l3.25 1.76a1.79 1.79 0 0 0 1.8 0L16.5 14.6V9.4z" />
-                            <path d="m7 4.75 9.5 5.45" />
-                            <path d="M7 19.25V9.45" />
-                        </svg>
+                    <div className="flex flex-col items-center w-full">
+                        <div className="relative z-10 w-[72px] h-[72px] rounded-full bg-white/5 border border-white/10 flex justify-center items-center mb-7 text-gold-primary transition-all duration-400 group-hover:bg-gold-primary group-hover:text-black group-hover:scale-110 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect width="16" height="16" x="4" y="4" rx="2" />
+                                <rect width="6" height="6" x="9" y="9" rx="1" />
+                                <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+                            </svg>
+                        </div>
+                        <h3 className="relative z-10 text-xl font-bold mb-4 text-white tracking-wider uppercase transition-colors duration-400 group-hover:text-gold-primary">
+                            Engineer
+                        </h3>
                     </div>
-                    <h3 className="relative z-10 text-lg font-bold mb-4 text-white tracking-wider uppercase transition-colors duration-400 group-hover:text-gold-primary">
-                        Build
-                    </h3>
-                    <p className="relative z-10 text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word]">
-                        Translating formulas into functional algorithms. In the AI Supercomputing Lab, we write clean code, build autonomous AI agents, deploy custom LLM pipelines, and contribute to open-source ecosystem.
+                    <p className="relative z-10 text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word] font-normal mt-auto" lang="en">
+                        Translating theoretical breakthroughs into high-performance systems. In the AI Supercomputing Lab, we write clean code, build autonomous AI agents, deploy custom LLM pipelines, and contribute to open-source software.
                     </p>
                 </motion.div>
 
-                {/* Pillar 3: Advance */}
+                {/* Pillar 3: Impact */}
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
                     whileHover={{ y: -8 }}
                     viewport={{ once: false, amount: 0.15 }}
                     variants={cardVariants}
-                    className="group relative bg-white/[0.02] border border-white/5 rounded-2xl p-8 sm:p-10 text-center transition-[border-color,box-shadow,background-color] duration-400 flex flex-col items-center hover:border-gold-primary/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] overflow-hidden"
+                    className="group relative bg-white/[0.02] border border-white/5 rounded-2xl p-8 sm:p-10 lg:p-12 text-center transition-[border-color,box-shadow,background-color] duration-400 flex flex-col items-center justify-between min-h-[360px] lg:min-h-[390px] hover:border-gold-primary/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.5),_0_0_20px_rgba(255,193,7,0.05)] overflow-hidden"
                 >
-                    <div className="relative z-10 w-[70px] h-[70px] rounded-full bg-white/5 border border-white/10 flex justify-center items-center mb-8 text-gold-primary transition-all duration-400 group-hover:bg-gold-primary group-hover:text-black group-hover:scale-110 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3z" />
-                        </svg>
+                    <div className="flex flex-col items-center w-full">
+                        <div className="relative z-10 w-[72px] h-[72px] rounded-full bg-white/5 border border-white/10 flex justify-center items-center mb-7 text-gold-primary transition-all duration-400 group-hover:bg-gold-primary group-hover:text-black group-hover:scale-110 shadow-[0_0_15px_rgba(255,193,7,0.05)] group-hover:shadow-[0_0_20px_rgba(255,193,7,0.4)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                            </svg>
+                        </div>
+                        <h3 className="relative z-10 text-xl font-bold mb-4 text-white tracking-wider uppercase transition-colors duration-400 group-hover:text-gold-primary">
+                            Impact
+                        </h3>
                     </div>
-                    <h3 className="relative z-10 text-lg font-bold mb-4 text-white tracking-wider uppercase transition-colors duration-400 group-hover:text-gold-primary">
-                        Advance
-                    </h3>
-                    <p className="relative z-10 text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word]">
-                        Pioneering new solutions and publishing research. We channel our projects into hackathons, intellectual property patents, and academic research papers to push the frontier of student-led AI development.
+                    <p className="relative z-10 text-sm text-[#A0A0A0] leading-relaxed text-justify [hyphens:auto] [text-justify:inter-word] font-normal mt-auto" lang="en">
+                        Deploying tangible AI solutions that drive real-world change. We channel our projects into national hackathons, research publications, intellectual property patents, and production-grade applications.
                     </p>
                 </motion.div>
             </div>
@@ -210,7 +211,7 @@ function VisionSection() {
     ];
 
     return (
-        <section className="relative flex flex-col items-center bg-[#050505] text-white py-16 md:py-24 px-6 md:px-[10%] border-b border-white/5 z-10" id="vision">
+        <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10" id="vision">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -301,7 +302,7 @@ function TestimonialsSection({ settings }: TestimonialsSectionProps) {
     const duplicatedTestimonials = [...sourceList, ...sourceList];
 
     return (
-        <section className="relative flex flex-col items-center bg-[#050505] text-white py-16 md:py-24 px-6 md:px-[10%] border-b border-white/5 z-10 overflow-hidden" id="testimonials">
+        <section className="relative flex flex-col items-center bg-[#050505] text-[#F5F3ED] py-16 md:py-24 px-6 md:px-[10%] z-10 overflow-hidden" id="testimonials">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}

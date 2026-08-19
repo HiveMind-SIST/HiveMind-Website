@@ -111,6 +111,10 @@ export const createTeamMember = async (req: Request, res: Response) => {
             return res.status(400).json({ success: false, message: "A team member with this email already exists." });
         }
 
+        // 7. Get highest sortOrder so new member is placed at the bottom by default
+        const lastMember = await Team.findOne({}).sort({ sortOrder: -1 }).select("sortOrder").lean();
+        const nextSortOrder = (lastMember?.sortOrder !== undefined && lastMember?.sortOrder !== null) ? lastMember.sortOrder + 1 : 0;
+
         const newMember = new Team({
             fullname,
             registerNumber: memberRole === "Faculty Mentor" ? "N/A" : (registerNumber || "N/A"),
@@ -123,6 +127,7 @@ export const createTeamMember = async (req: Request, res: Response) => {
             github: github || "",
             batch: memberRole === "Faculty Mentor" ? "Faculty" : (batch || "Faculty"),
             role: memberRole,
+            sortOrder: nextSortOrder,
         });
 
         await newMember.save();
@@ -228,8 +233,7 @@ export const updateTeamMember = async (req: Request, res: Response) => {
         await member.save();
 
         if (oldPicUrl) {
-            deleteFromCloudinary(oldPicUrl).catch(err => 
-                {}
+            deleteFromCloudinary(oldPicUrl).catch(err => { }
             );
         }
 
@@ -257,8 +261,7 @@ export const deleteTeamMember = async (req: Request, res: Response) => {
         await Team.findByIdAndDelete(id);
 
         if (picUrl) {
-            deleteFromCloudinary(picUrl).catch(err => 
-                {}
+            deleteFromCloudinary(picUrl).catch(err => { }
             );
         }
 

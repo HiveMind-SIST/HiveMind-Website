@@ -17,7 +17,7 @@ export default function Footer() {
                     setSettings(res.settings);
                 }
             })
-            .catch(() => {});
+            .catch(() => { });
     }, []);
 
     const formatPhoneNumber = (num: string) => {
@@ -31,27 +31,30 @@ export default function Footer() {
         return num;
     };
 
-    const communityName = settings?.communityName || "";
-    const primaryEmail = settings?.primaryEmail || "hivemindsist@gmail.com";
-    const githubUrl = settings?.github || "";
-    const linkedinUrl = settings?.linkedin || "";
-    const instagramUrl = settings?.instagram || "";
-    const addressLocation = settings?.location || "";
+    const communityName = settings?.communityName || "HiveMind";
+    const primaryEmail = "hivemindsist@gmail.com";
+    const githubUrl = settings?.github || "https://github.com/HiveMind-SIST";
+    const linkedinUrl = settings?.linkedin || "https://linkedin.com/company/hivemindsist";
+    const instagramUrl = settings?.instagram || "https://instagram.com/hivemindsist";
+    const addressLocation = settings?.location || "AI Supercomputing Lab, School of Computing, Sathyabama Institute of Science and Technology";
     const contactNumber = settings?.contactNumber || "";
     const displayPhone = formatPhoneNumber(contactNumber);
     const cleanTelNumber = contactNumber.startsWith("+") ? contactNumber : `+91${contactNumber}`;
 
     return (
-        <footer className="relative bg-[#050505] text-white border-t border-white/5 pt-16 pb-8 px-6 md:px-[10%] z-20 overflow-hidden">
+        <footer className="relative bg-gradient-to-b from-[#050505] via-[#120E06] to-[#050505] text-[#F5F3ED] border-t border-[#D6A84F]/25 pt-16 pb-8 px-6 md:px-[10%] z-20 overflow-hidden shadow-[0_-10px_35px_rgba(0,0,0,0.8)]">
             {/* Visual background treatment */}
             <HoneycombPattern />
 
-            {/* Radial glow behind brand area */}
-            <div className="absolute top-0 left-[-5%] w-[40%] h-[55%] bg-[radial-gradient(circle,rgba(255,193,7,0.02)_0%,transparent_75%)] pointer-events-none z-0 blur-[40px]" />
+            {/* Top gold accent line */}
+            <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#D6A84F] to-transparent z-10" />
+
+            {/* Ambient golden glow behind brand area */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[70%] h-[50%] bg-[radial-gradient(ellipse_at_top,rgba(214,168,79,0.12)_0%,transparent_70%)] pointer-events-none z-0 blur-[60px]" />
 
             <div className="relative max-w-7xl mx-auto z-10">
-                {/* Center-aligned Logo & Community Name at the top */}
-                <div className="flex flex-col items-center justify-center mb-12 text-center select-none">
+                {/* Center-aligned Logo & Community Name at the top (Stable, clean branding) */}
+                <div className="flex flex-col items-center justify-center mb-14 text-center select-none">
                     <Link
                         to="/"
                         onClick={(e) => {
@@ -60,22 +63,22 @@ export default function Footer() {
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                             }
                         }}
-                        className="group flex flex-col items-center gap-4 no-underline cursor-pointer"
+                        className="flex flex-col items-center gap-3.5 no-underline cursor-pointer"
                     >
                         <img
                             src="/assets/logos/HiveMind_logo_bg_removed.webp"
                             alt="HiveMind Logo"
-                            className="h-20 w-auto filter drop-shadow-[0_0_15px_rgba(255,193,7,0.4)] transition-transform duration-500 group-hover:scale-108 group-hover:rotate-2"
+                            className="h-16 md:h-20 w-auto filter drop-shadow-[0_0_16px_rgba(214,168,79,0.4)]"
                         />
-                        <span className="text-3xl md:text-5xl font-black uppercase tracking-[0.3em] bg-gradient-to-r from-white via-[#DDDDDD] to-gold-primary bg-clip-text text-transparent [text-shadow:0_0_15px_rgba(255,193,7,0.15)]">
+                        <span className="text-2xl md:text-4xl font-black uppercase tracking-[0.25em] bg-gradient-to-r from-[#F5F3ED] via-[#F0C766] to-[#D6A84F] bg-clip-text text-transparent [text-shadow:0_0_20px_rgba(214,168,79,0.3)]">
                             {communityName}
                         </span>
                     </Link>
-                    <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-primary/30 to-transparent mt-4" />
+                    <div className="w-24 h-[1.5px] bg-gradient-to-r from-transparent via-[#D6A84F] to-transparent mt-3" />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-10 lg:gap-8 items-start pb-12">
-                    {/* COLUMN 1: BRAND */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-8 lg:gap-10 items-start pb-12">
+                    {/* COLUMN 1: BRAND IDENTITY */}
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
@@ -83,21 +86,21 @@ export default function Footer() {
                         variants={columnVariants}
                         className="flex flex-col gap-4 items-start w-full"
                     >
-                        <div className="flex flex-col gap-0.5 mt-1">
-                            <span className="text-[11px] font-bold tracking-wider text-[#AAAAAA] uppercase">
+                        <div className="flex flex-col gap-1">
+                            <span className="text-[10px] font-bold tracking-[0.2em] text-[#858278] uppercase">
                                 Engineering Intelligence.
                             </span>
-                            <span className="text-[11px] font-black tracking-[0.18em] text-gold-primary uppercase">
+                            <span className="text-[11px] font-black tracking-[0.16em] text-[#D6A84F] uppercase [text-shadow:0_0_10px_rgba(214,168,79,0.3)]">
                                 BUILDING THE FUTURE.
                             </span>
                         </div>
 
-                        <p className="text-[11px] text-[#777777] leading-relaxed max-w-[260px] font-medium mt-2">
-                            A community of innovators, researchers, and developers building intelligent systems and exploring emerging technologies.
+                        <p className="text-xs text-[#B8B5AA] leading-relaxed max-w-[270px] font-medium mt-1">
+                            A student-driven AI and supercomputing community developing cutting-edge intelligence systems, machine learning models, and high-performance applications.
                         </p>
                     </motion.div>
 
-                    {/* COLUMN 2: EXPLORE */}
+                    {/* COLUMN 2: QUICK EXPLORE */}
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
@@ -105,8 +108,8 @@ export default function Footer() {
                         variants={columnVariants}
                         className="flex flex-col gap-4 items-start w-full"
                     >
-                        <span className="text-[10px] font-black text-[#CCCCCC] uppercase tracking-[0.25em] mb-1">
-                            Explore
+                        <span className="text-[10px] font-black text-[#F5F3ED] uppercase tracking-[0.25em] mb-1">
+                            Navigation
                         </span>
                         <ul className="flex flex-col gap-2.5 list-none p-0 m-0 w-full">
                             <li>
@@ -118,29 +121,31 @@ export default function Footer() {
                                             window.scrollTo({ top: 0, behavior: "smooth" });
                                         }
                                     }}
-                                    className="group flex items-center gap-1.5 text-xs text-[#888888] hover:text-gold-primary transition-all duration-300 transform hover:translate-x-1.5 font-semibold uppercase tracking-wider py-0.5"
+                                    className="text-xs text-[#B8B5AA] hover:text-[#D6A84F] transition-colors duration-200 font-medium tracking-wide py-0.5 inline-block"
                                 >
-                                    <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all duration-300 text-gold-primary text-[10px] font-black">
-                                        ➔
-                                    </span>
                                     Home
                                 </Link>
                             </li>
                             <li>
                                 <Link
                                     to="/team"
-                                    className="group flex items-center gap-1.5 text-xs text-[#888888] hover:text-gold-primary transition-all duration-300 transform hover:translate-x-1.5 font-semibold uppercase tracking-wider py-0.5"
+                                    className="text-xs text-[#B8B5AA] hover:text-[#D6A84F] transition-colors duration-200 font-medium tracking-wide py-0.5 inline-block"
                                 >
-                                    <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all duration-300 text-gold-primary text-[10px] font-black">
-                                        ➔
-                                    </span>
                                     Team
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    to="/projects"
+                                    className="text-xs text-[#B8B5AA] hover:text-[#D6A84F] transition-colors duration-200 font-medium tracking-wide py-0.5 inline-block"
+                                >
+                                    Projects
                                 </Link>
                             </li>
                         </ul>
                     </motion.div>
 
-                    {/* COLUMN 3: COMMUNITY */}
+                    {/* COLUMN 3: COMMUNITY INITIATIVES */}
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
@@ -148,47 +153,38 @@ export default function Footer() {
                         variants={columnVariants}
                         className="flex flex-col gap-4 items-start w-full"
                     >
-                        <span className="text-[10px] font-black text-[#CCCCCC] uppercase tracking-[0.25em] mb-1">
+                        <span className="text-[10px] font-black text-[#F5F3ED] uppercase tracking-[0.25em] mb-1">
                             Community
                         </span>
                         <ul className="flex flex-col gap-2.5 list-none p-0 m-0 w-full">
                             <li>
                                 <Link
                                     to="/join"
-                                    className="group flex items-center gap-1.5 text-xs text-[#888888] hover:text-gold-primary transition-all duration-300 transform hover:translate-x-1.5 font-semibold uppercase tracking-wider py-0.5"
+                                    className="text-xs text-[#B8B5AA] hover:text-[#D6A84F] transition-colors duration-200 font-medium tracking-wide py-0.5 inline-block"
                                 >
-                                    <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all duration-300 text-gold-primary text-[10px] font-black">
-                                        ➔
-                                    </span>
                                     Join HiveMind
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    to="/projects"
-                                    className="group flex items-center gap-1.5 text-xs text-[#888888] hover:text-gold-primary transition-all duration-300 transform hover:translate-x-1.5 font-semibold uppercase tracking-wider py-0.5"
+                                    to="/events"
+                                    className="text-xs text-[#B8B5AA] hover:text-[#D6A84F] transition-colors duration-200 font-medium tracking-wide py-0.5 inline-block"
                                 >
-                                    <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all duration-300 text-gold-primary text-[10px] font-black">
-                                        ➔
-                                    </span>
-                                    Projects
+                                    Events
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    to="/events"
-                                    className="group flex items-center gap-1.5 text-xs text-[#888888] hover:text-gold-primary transition-all duration-300 transform hover:translate-x-1.5 font-semibold uppercase tracking-wider py-0.5"
+                                    to="/journey"
+                                    className="text-xs text-[#B8B5AA] hover:text-[#D6A84F] transition-colors duration-200 font-medium tracking-wide py-0.5 inline-block"
                                 >
-                                    <span className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-3 transition-all duration-300 text-gold-primary text-[10px] font-black">
-                                        ➔
-                                    </span>
-                                    Events
+                                    Journey
                                 </Link>
                             </li>
                         </ul>
                     </motion.div>
 
-                    {/* COLUMN 4: CONNECT */}
+                    {/* COLUMN 4: CONNECT & CONTACT */}
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
@@ -196,68 +192,81 @@ export default function Footer() {
                         variants={columnVariants}
                         className="flex flex-col gap-4 items-start w-full"
                     >
-                        <span className="text-[10px] font-black text-[#CCCCCC] uppercase tracking-[0.25em] mb-1">
+                        <span className="text-[10px] font-black text-[#F5F3ED] uppercase tracking-[0.25em] mb-1">
                             Connect
                         </span>
 
-                        <div className="flex items-center gap-3.5 mt-1">
+                        {/* Social Brand Buttons (Full-circle color on hover) */}
+                        <div className="flex items-center gap-3 mt-1">
                             {/* GitHub */}
                             <a
                                 href={githubUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 social-btn social-btn-github group"
+                                className="w-10 h-10 social-btn social-btn-github group bg-[#171714] border border-[#2A2A25] text-[#B8B5AA] hover:border-[#D6A84F]/50"
                                 aria-label="Follow HiveMind on GitHub"
                             >
-                                <GitHubIcon />
+                                <GitHubIcon size={18} />
                             </a>
                             {/* LinkedIn */}
                             <a
                                 href={linkedinUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 social-btn social-btn-linkedin group"
+                                className="w-10 h-10 social-btn social-btn-linkedin group bg-[#171714] border border-[#2A2A25] text-[#B8B5AA] hover:border-[#D6A84F]/50"
                                 aria-label="Connect with HiveMind on LinkedIn"
                             >
-                                <LinkedInIcon />
+                                <LinkedInIcon size={18} />
                             </a>
                             {/* Instagram */}
                             <a
                                 href={instagramUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-10 h-10 social-btn social-btn-instagram group"
+                                className="w-10 h-10 social-btn social-btn-instagram group bg-[#171714] border border-[#2A2A25] text-[#B8B5AA] hover:border-[#D6A84F]/50"
                                 aria-label="Follow HiveMind on Instagram"
                             >
-                                <InstagramIcon />
+                                <InstagramIcon size={18} />
                             </a>
                         </div>
 
-                        {/* Contact details with icons */}
-                        <div className="flex flex-col gap-3 mt-2 text-[11px] text-[#777777] leading-relaxed font-medium">
-                            <div className="flex items-center gap-2">
-                                <LocationIcon />
+                        {/* Contact info list */}
+                        <div className="flex flex-col gap-3 mt-3 text-xs text-[#B8B5AA] leading-relaxed font-medium w-full">
+                            <div className="flex items-start gap-2.5">
+                                <span className="p-1 rounded-md bg-[#171714] border border-[#D6A84F]/30 text-[#D6A84F] flex-shrink-0 mt-0.5">
+                                    <LocationIcon size={13} />
+                                </span>
                                 <a
                                     href="https://www.sathyabama.ac.in/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="hover:text-gold-primary text-[#777777] transition-colors no-underline text-left"
+                                    className="hover:text-[#D6A84F] text-[#B8B5AA] transition-colors no-underline text-left"
                                 >
                                     {addressLocation}
                                 </a>
                             </div>
 
-                            <div className="flex items-center gap-2">
-                                <EmailIcon />
-                                <a href={`mailto:${primaryEmail}`} className="hover:text-gold-primary text-[#777777] transition-colors no-underline">
+                            <div className="flex items-center gap-2.5">
+                                <span className="p-1 rounded-md bg-[#171714] border border-[#D6A84F]/30 text-[#D6A84F] flex-shrink-0">
+                                    <EmailIcon size={13} />
+                                </span>
+                                <a
+                                    href={`mailto:${primaryEmail}`}
+                                    className="hover:text-[#D6A84F] text-[#B8B5AA] transition-colors no-underline text-xs"
+                                >
                                     {primaryEmail}
                                 </a>
                             </div>
 
                             {contactNumber && (
-                                <div className="flex items-center gap-2">
-                                    <PhoneIcon />
-                                    <a href={`tel:${cleanTelNumber.replace(/\s+/g, '')}`} className="hover:text-gold-primary text-[#777777] transition-colors no-underline">
+                                <div className="flex items-center gap-2.5">
+                                    <span className="p-1 rounded-md bg-[#171714] border border-[#D6A84F]/30 text-[#D6A84F] flex-shrink-0">
+                                        <PhoneIcon size={13} />
+                                    </span>
+                                    <a
+                                        href={`tel:${cleanTelNumber.replace(/\s+/g, '')}`}
+                                        className="hover:text-[#D6A84F] text-[#B8B5AA] transition-colors no-underline"
+                                    >
                                         {displayPhone}
                                     </a>
                                 </div>
@@ -266,10 +275,13 @@ export default function Footer() {
                     </motion.div>
                 </div>
 
-                {/* Bottom Copyright Section */}
-                <div className="pt-8 mt-4 border-t border-white/5 flex items-center justify-center text-[10px] text-[#555555] uppercase tracking-widest font-black text-center w-full">
+                {/* Bottom Copyright & Attribution Section */}
+                <div className="pt-8 mt-6 border-t border-[#D6A84F]/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-[#858278] uppercase tracking-widest font-bold text-center sm:text-left w-full">
                     <div>
                         © {new Date().getFullYear()} {communityName}. All rights reserved.
+                    </div>
+                    <div className="text-[#858278] tracking-wider text-[9px]">
+                        AI Supercomputing Lab • School of Computing
                     </div>
                 </div>
             </div>

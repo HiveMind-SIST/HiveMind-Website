@@ -16,10 +16,11 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
     const heroRef = useRef<HTMLDivElement>(null);
     const [gifLoaded, setGifLoaded] = useState(false);
 
-    const communityName = settings?.communityName || "";
-    const tagline = settings?.tagline || "";
+    const communityName = settings?.communityName || "HiveMind SIST";
+    const tagline = settings?.tagline || "Engineering Intelligence. Building the Future.";
 
     const splitName = (name: string) => {
+        if (!name) return { first: "HiveMind", second: " SIST" };
         const spaceIdx = name.indexOf(" ");
         if (spaceIdx > 0) {
             return {
@@ -32,14 +33,14 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
             if (char === char.toUpperCase() && char !== char.toLowerCase()) {
                 return {
                     first: name.substring(0, i),
-                    second: name.substring(i)
+                    second: " " + name.substring(i)
                 };
             }
         }
         const mid = Math.ceil(name.length / 2);
         return {
             first: name.substring(0, mid),
-            second: name.substring(mid)
+            second: " " + name.substring(mid)
         };
     };
 
@@ -254,7 +255,7 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
             heroSection.removeEventListener("mousemove", handleMouseMove);
             heroSection.removeEventListener("mouseleave", handleMouseLeave);
         };
-    }, [communityName]);
+    }, []);
 
     return (
         <section
@@ -263,7 +264,9 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
             ref={heroRef}
             style={{ backgroundImage: "url('/assets/backgrounds/hero-bg.webp')" }}
         >
-            <div className="absolute inset-0 bg-[#040406]/75 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] z-[2]"></div>
+            <div className="absolute inset-0 bg-[#050505]/75 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)] z-[2]"></div>
+            <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-[#050505] to-transparent z-[4] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-48 sm:h-72 bg-gradient-to-b from-transparent via-[#050505]/75 to-[#050505] z-[4] pointer-events-none" />
 
             <img
                 src="/assets/backgrounds/bee_background.gif"
@@ -271,9 +274,8 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
                 loading="lazy"
                 decoding="async"
                 onLoad={() => setGifLoaded(true)}
-                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1800px] max-w-[200vw] h-auto z-[3] pointer-events-none mix-blend-screen center-bg-gif-mask transition-opacity duration-1000 ${
-                    gifLoaded ? "opacity-85" : "opacity-0"
-                }`}
+                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1800px] max-w-[200vw] h-auto z-[3] pointer-events-none mix-blend-screen center-bg-gif-mask transition-opacity duration-1000 ${gifLoaded ? "opacity-85" : "opacity-0"
+                    }`}
             />
 
             <div className="absolute w-[50vw] h-[50vw] bg-[radial-gradient(circle,rgba(255,193,7,0.08)_0%,transparent_60%)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full z-[3] pointer-events-none animate-[pulseGlowBg_6s_ease-in-out_infinite_alternate]"></div>
@@ -291,7 +293,7 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
                     hidden: {},
                     visible: {
                         transition: {
-                            staggerChildren: 0.25
+                            staggerChildren: 0.2
                         }
                     }
                 }}
@@ -300,55 +302,45 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
                     variants={{
                         hidden: {
                             opacity: 0,
-                            scale: 0.9,
-                            y: 40,
-                            rotateX: -20,
-                            filter: "blur(15px)"
+                            scale: 0.95,
+                            y: 30,
                         },
                         visible: {
                             opacity: 1,
                             scale: 1,
                             y: 0,
-                            rotateX: 0,
-                            filter: "blur(0px)",
                             transition: {
-                                duration: 1.5,
-                                ease: [0.075, 0.82, 0.165, 1]
+                                duration: 1.2,
+                                ease: [0.16, 1, 0.3, 1]
                             }
                         }
                     }}
-                    style={{ perspective: 500 }}
-                    className="text-[clamp(2.5rem,8vw,8rem)] font-black tracking-tighter leading-[1.1] mb-6 uppercase transition-[filter] duration-800 ease-out filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)] drop-shadow-[0_0_var(--glow-intensity)_rgba(255,193,7,0.4)]"
+                    className="text-[clamp(2.5rem,8vw,8rem)] font-black tracking-tighter leading-[1.1] mb-6 uppercase drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)] drop-shadow-[0_0_var(--glow-intensity,20px)_rgba(255,193,7,0.35)]"
                     id="main-heading"
                 >
                     {/* Spans split for targeted canvas effects */}
-                    <span className="gold-sweep-text" id="hive-target">
+                    <span className="gold-sweep-text inline-block" id="hive-target">
                         {firstPart}
                     </span>
-                    <span className="hollow-glow-text">{secondPart}</span>
+                    <span className="hollow-glow-text inline-block">{secondPart}</span>
                 </motion.h1>
                 <motion.h2
                     variants={{
                         hidden: {
                             opacity: 0,
-                            scale: 0.9,
+                            scale: 0.95,
                             y: 20,
-                            rotateX: -20,
-                            filter: "blur(10px)"
                         },
                         visible: {
                             opacity: 1,
                             scale: 1,
                             y: 0,
-                            rotateX: 0,
-                            filter: "blur(0px)",
                             transition: {
-                                duration: 1.2,
-                                ease: [0.075, 0.82, 0.165, 1]
+                                duration: 1.0,
+                                ease: [0.16, 1, 0.3, 1]
                             }
                         }
                     }}
-                    style={{ perspective: 500 }}
                     className="relative inline-block text-[clamp(0.75rem,1.3vw,1.1rem)] font-bold text-[#E5E5E5] tracking-[0.3em] uppercase subheading-lines"
                 >
                     {tagline}
@@ -359,24 +351,19 @@ export default function HeroSection({ settings, showSplash }: HeroSectionProps) 
                     variants={{
                         hidden: {
                             opacity: 0,
-                            scale: 0.9,
+                            scale: 0.95,
                             y: 20,
-                            rotateX: -20,
-                            filter: "blur(10px)"
                         },
                         visible: {
                             opacity: 1,
                             scale: 1,
                             y: 0,
-                            rotateX: 0,
-                            filter: "blur(0px)",
                             transition: {
-                                duration: 1.2,
-                                ease: [0.075, 0.82, 0.165, 1]
+                                duration: 1.0,
+                                ease: [0.16, 1, 0.3, 1]
                             }
                         }
                     }}
-                    style={{ perspective: 500 }}
                     className="mt-6 text-[clamp(1rem,2vw,1.3rem)] font-medium text-white tracking-widest"
                 >
                     We explore <span className="text-gold-primary font-bold drop-shadow-[0_0_10px_rgba(255,193,7,0.4)]">{typewriterText}</span>

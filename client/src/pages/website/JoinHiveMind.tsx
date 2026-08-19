@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import Toast from "../../compoenets/Toast";
 import ApplicationServices from "../../services/admin/ApplicationServices";
 import CloudinaryServices, { getSafeResumeUrl } from "../../services/cloudinaryService";
@@ -9,6 +8,10 @@ import MasterDataServices, { type IMasterDataOption } from "../../services/admin
 import CommunitySettingsServices from "../../services/admin/CommunitySettingsServices";
 import DomainServices, { type DomainOption } from "../../services/admin/DomainServices";
 import CustomSingleSelect from "../../compoenets/CustomSingleSelect";
+import PageHero from "../../compoenets/PageHero";
+import AmbientGlow from "../../compoenets/AmbientGlow";
+import { useBodyBackground } from "../../utils/hooks";
+import { cardVariants } from "../../utils/motionVariants";
 
 function DomainMultiSelect({
     label,
@@ -70,7 +73,7 @@ function DomainMultiSelect({
                 {isOpen && (
                     <>
                         <div className="fixed inset-0 z-40" onClick={() => { setIsOpen(false); setSearchTerm(""); }} />
-                        <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#171717] border border-white/10 rounded-xl shadow-2xl z-50 max-h-[220px] overflow-hidden flex flex-col p-2 gap-1.5">
+                        <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#171717] border border-white/10 rounded-xl shadow-2xl z-50 max-h-[380px] overflow-hidden flex flex-col p-2 gap-1.5">
                             {/* Search Input Box */}
                             <div className="flex items-center bg-black/30 border border-white/5 rounded-lg px-2.5 py-1.5 focus-within:border-gold-primary/30 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/40 mr-2">
@@ -103,7 +106,7 @@ function DomainMultiSelect({
                             </div>
 
                             {/* Scrollable Domains List */}
-                            <div className="overflow-y-auto max-h-[148px] space-y-1 custom-scrollbar pr-0.5">
+                            <div className="overflow-y-auto max-h-[300px] space-y-1 custom-scrollbar pr-0.5">
                                 {filteredDomains.length === 0 ? (
                                     <div className="text-center py-4 text-white/30 text-[10px] uppercase font-bold tracking-wider select-none">
                                         No domains found
@@ -140,45 +143,6 @@ function DomainMultiSelect({
 }
 
 
-
-// Neural Network connecting lines background
-function NeuralNetworkLines() {
-    return (
-        <svg className="absolute inset-0 w-full h-full opacity-[0.03] pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
-            <line x1="10%" y1="20%" x2="25%" y2="35%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="25%" y1="35%" x2="20%" y2="60%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="20%" y1="60%" x2="45%" y2="50%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="45%" y1="50%" x2="60%" y2="30%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="60%" y1="30%" x2="80%" y2="45%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="80%" y1="45%" x2="90%" y2="25%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="45%" y1="50%" x2="35%" y2="80%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="60%" y1="30%" x2="70%" y2="70%" stroke="#FFC107" strokeWidth="1" />
-            <line x1="70%" y1="70%" x2="85%" y2="80%" stroke="#FFC107" strokeWidth="1" />
-
-            <circle cx="10%" cy="20%" r="3" fill="#FFC107" />
-            <circle cx="25%" cy="35%" r="3" fill="#FFC107" />
-            <circle cx="20%" cy="60%" r="3" fill="#FFC107" />
-            <circle cx="45%" cy="50%" r="4" fill="#FFC107" />
-            <circle cx="60%" cy="30%" r="4" fill="#FFC107" />
-            <circle cx="80%" cy="45%" r="3" fill="#FFC107" />
-            <circle cx="90%" cy="25%" r="3" fill="#FFC107" />
-            <circle cx="35%" cy="80%" r="3" fill="#FFC107" />
-            <circle cx="70%" cy="70%" r="3" fill="#FFC107" />
-            <circle cx="85%" cy="80%" r="3" fill="#FFC107" />
-        </svg>
-    );
-}
-
-// Particle decorative layout
-function FloatingParticles() {
-    return (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            <div className="absolute w-[350px] h-[350px] bg-gold-primary/[0.03] rounded-full blur-[100px] top-[15%] left-[20%] animate-pulse" />
-            <div className="absolute w-[450px] h-[450px] bg-gold-primary/[0.02] rounded-full blur-[120px] bottom-[25%] right-[15%] animate-pulse" />
-            <div className="absolute w-[200px] h-[200px] bg-gold-primary/[0.015] rounded-full blur-[80px] top-[60%] left-[60%] animate-[pulse_4s_ease-in-out_infinite_1.5s]" />
-        </div>
-    );
-}
 
 // Reusable animated section header
 function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
@@ -252,21 +216,9 @@ function FAQItem({ question, answer, isOpen, onClick }: { question: string; answ
 }
 
 export default function JoinHiveMind() {
-    const navigate = useNavigate();
-    const cardVariants = {
-        hidden: { opacity: 0, y: 40 },
-        visible: (custom: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                delay: custom * 0.15,
-                ease: "easeOut" as const
-            }
-        })
-    };
+    useBodyBackground("/assets/backgrounds/gb.webp");
 
-    const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
+    const [toast, setToast] = useState<{ message: string; type: "error" | "success" | "info" } | null>(null);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -318,9 +270,20 @@ export default function JoinHiveMind() {
         domainOfInterest: "",
         programmingLanguages: "", // split into array on submit
         whyJoin: "",
+        experience: "",
         hoursPerWeek: 10,
         howDidYouHear: "",
     });
+
+    const [isClosedModalOpen, setIsClosedModalOpen] = useState(false);
+
+    const handleApplyClick = () => {
+        if (!acceptingApplications) {
+            setIsClosedModalOpen(true);
+            return;
+        }
+        setIsModalOpen(true);
+    };
 
     const deleteImageFromCloudinary = async (url: string) => {
         if (!url || !url.includes("res.cloudinary.com")) return;
@@ -556,7 +519,11 @@ export default function JoinHiveMind() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#050505] text-white flex flex-col relative overflow-x-clip">
+        <div className="min-h-screen bg-transparent text-white flex flex-col relative overflow-x-clip">
+            {/* Dark overlay backdrop to keep content readable matching other pages */}
+            <div className="fixed inset-0 bg-[#050505]/45 z-0 pointer-events-none" />
+            <AmbientGlow />
+
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
             {/* Full-Screen Submission Loader */}
@@ -600,81 +567,42 @@ export default function JoinHiveMind() {
                 )}
             </AnimatePresence>
 
-            {/* SECTION 1: HERO */}
-            <section
-                className="relative h-screen w-full flex flex-col items-center justify-center text-center px-6 overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed z-10"
-                style={{ backgroundImage: "url('/assets/backgrounds/gb.webp')" }}
-            >
-                {/* Atmospheric dark overlay backdrop */}
-                <div className="absolute inset-0 bg-[#040406]/45 shadow-[inset_0_0_150px_rgba(0,0,0,0.7)] z-0"></div>
+            {/* UNIFIED HERO & PAGE CONTENT */}
+            <main className="flex-1 z-10 pt-6 md:pt-10 pb-16 flex flex-col items-center justify-start">
+                <section className="relative flex flex-col items-center bg-transparent text-white pt-2 pb-16 md:pt-4 md:pb-24 px-6 md:px-[10%] z-10 w-full" id="join">
+                    <PageHero
+                        badge="RECRUITMENT • AI SUPERCOMPUTING LAB"
+                        title="JOIN HIVEMIND"
+                        subtitle="BECOME PART OF AN ELITE COMMUNITY BUILDING THE FUTURE OF ARTIFICIAL INTELLIGENCE & INTELLIGENT SYSTEMS"
+                        editorialBadge="RESEARCH, INNOVATION & IMPACT"
+                        editorialHeading={
+                            <>
+                                ARCHITECT THE NEXT ERA OF <span className="text-gold-primary">INTELLIGENT SYSTEMS</span>
+                            </>
+                        }
+                        paragraphs={[
+                            "HiveMind is the premier student-driven Artificial Intelligence and Supercomputing community at Sathyabama Institute of Science and Technology, operating from the AI Supercomputing Lab in the SCAS Block.",
+                            "We empower passionate students across all engineering disciplines to transition from learners to innovators — deploying Large Language Models, Generative Vision systems, Autonomous Agents, and High-Performance Compute clusters."
+                        ]}
+                        highlightParagraph="Zero department barriers. Real hands-on GPU clusters. Tier-1 hackathons, research papers, and production deployments."
+                        sectionId="hero"
+                        catalogueBadge="CAPABILITIES & CULTURE"
+                        catalogueTitle="WHY JOIN HIVEMIND"
+                    />
 
-                <NeuralNetworkLines />
-                <FloatingParticles />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,193,7,0.035)_0%,transparent_60%)] pointer-events-none z-0" />
-
-                <div className="relative max-w-3xl z-10 flex flex-col items-center">
-                    <motion.span
-                        initial={{ opacity: 0, y: -12, letterSpacing: "0.1em" }}
-                        whileInView={{ opacity: 1, y: 0, letterSpacing: "0.4em" }}
-                        viewport={{ once: false, amount: 0.15 }}
-                        transition={{ duration: 0.7, ease: "easeOut" }}
-                        className="text-[10px] font-bold text-gold-primary uppercase tracking-[0.4em] mb-4 [text-shadow:0_0_12px_rgba(255,193,7,0.2)]"
-                    >
-                        Build the intelligence boundary
-                    </motion.span>
-
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30, scale: 0.97 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        viewport={{ once: false, amount: 0.15 }}
-                        transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-                        className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.1] mb-6 uppercase filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)]"
-                    >
-                        <span className="gold-sweep-text">Join </span>
-                        <span className="text-white">HiveMind</span>
-                    </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false, amount: 0.15 }}
-                        transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                        className="text-sm sm:text-base text-[#9D9D9D] leading-relaxed mb-10 max-w-2xl"
-                    >
-                        Become part of an elite community building the future of Artificial Intelligence, Robotics and Intelligent Systems.
-                    </motion.p>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false, amount: 0.15 }}
-                        transition={{ duration: 0.6, delay: 0.45, ease: "easeOut" }}
-                        className="flex flex-col sm:flex-row gap-4 justify-center"
-                    >
-                        <motion.button
-                            onClick={() => setIsModalOpen(true)}
-                            whileHover={{ scale: 1.04, translateY: -2 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="bg-gold-primary hover:bg-[#D4AF37] text-[#050505] text-[11px] font-extrabold uppercase py-3.5 px-8 rounded-full cursor-pointer transition-colors duration-300 tracking-widest shadow-[0_4px_20px_rgba(255,193,7,0.25)]"
+                    {/* Quick Action Apply CTA */}
+                    <div className="relative z-10 flex justify-center -mt-6 mb-16 px-4">
+                        <button
+                            onClick={handleApplyClick}
+                            className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] text-xs font-extrabold uppercase py-3.5 px-10 rounded-full cursor-pointer transition-all duration-200 tracking-widest shadow-[0_4px_20px_rgba(214,168,79,0.3)] hover:shadow-[0_6px_25px_rgba(214,168,79,0.5)] border-none"
                         >
-                            Apply Now
-                        </motion.button>
-                        <motion.button
-                            onClick={() => navigate("/")}
-                            whileHover={{ scale: 1.04, translateY: -2 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="bg-transparent border border-white/10 hover:border-gold-primary/40 text-white text-[11px] font-extrabold uppercase py-3.5 px-8 rounded-full cursor-pointer transition-colors duration-300 tracking-widest"
-                        >
-                            Explore Community
-                        </motion.button>
-                    </motion.div>
-                </div>
-            </section>
+                            Apply For Recruitment
+                        </button>
+                    </div>
 
-            {/* SECTION 2: WHY JOIN HIVEMIND (2x2 Grid) */}
-            <section id="why-join" className="relative py-24 px-6 md:px-[8%] bg-[#050505] z-10 border-t border-white/5">
-                <div className="max-w-5xl mx-auto relative z-10">
-                    <SectionHeader eyebrow="Capabilities & Culture" title="Why Join HiveMind" />
+                    {/* SECTION 2: WHY JOIN HIVEMIND (2x2 Grid) */}
+                    <div id="why-join" className="relative pb-24 w-full bg-transparent z-10">
+                        <div className="max-w-5xl mx-auto relative z-10">
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {whyJoinCards.map((card, idx) => (
@@ -706,11 +634,11 @@ export default function JoinHiveMind() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </div>
 
 
             {/* SECTION 4: SELECTION PROCESS (HORIZONTAL TIMELINE) */}
-            <section className="relative py-24 px-6 md:px-[8%] bg-[#050505] z-10 border-t border-white/5">
+            <section className="relative py-24 px-6 md:px-[8%] bg-transparent z-10">
                 <div className="max-w-5xl mx-auto relative z-10">
                     <SectionHeader eyebrow="Milestones" title="Selection Process" />
 
@@ -797,7 +725,7 @@ export default function JoinHiveMind() {
             </section>
 
             {/* SECTION 5: FAQ */}
-            <section className="relative py-24 px-6 md:px-[8%] bg-[#050505] z-10 border-t border-white/5">
+            <section className="relative py-24 px-6 md:px-[8%] bg-transparent z-10">
                 <div className="max-w-3xl mx-auto relative z-10">
                     <SectionHeader eyebrow="FAQ" title="Frequently Asked Questions" />
 
@@ -833,17 +761,77 @@ export default function JoinHiveMind() {
                         <p className="text-xs sm:text-sm text-[#9D9D9D] leading-relaxed max-w-lg mx-auto">
                             Submit your profile details below to connect with us and take the first step towards joining the lab.
                         </p>
-                        <motion.button
-                            onClick={() => setIsModalOpen(true)}
-                            whileHover={{ scale: 1.04, translateY: -2 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="bg-gold-primary hover:bg-[#D4AF37] text-[#050505] text-[11px] font-extrabold uppercase py-3.5 px-8 rounded-full cursor-pointer transition-colors duration-300 tracking-widest shadow-[0_4px_20px_rgba(255,193,7,0.25)] inline-block mt-4"
+                        <button
+                            onClick={handleApplyClick}
+                            className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] text-[11px] font-extrabold uppercase py-3.5 px-8 rounded-full cursor-pointer transition-colors duration-200 tracking-widest shadow-[0_4px_20px_rgba(214,168,79,0.25)] inline-block mt-4 border-none"
                         >
                             Apply Now
-                        </motion.button>
+                        </button>
                     </motion.div>
                 </div>
             </section>
+        </section>
+    </main>
+
+            {/* RECRUITMENT CLOSED POPUP MODAL */}
+            {isClosedModalOpen && createPortal(
+                <div
+                    className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-[999999] p-4 sm:p-6 animate-fade-in select-none"
+                    onClick={() => setIsClosedModalOpen(false)}
+                >
+                    <div
+                        className="bg-[#171714] border border-[#2A2A25] rounded-3xl p-7 sm:p-9 max-w-md w-full text-center relative shadow-[0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Top decorative accent line */}
+                        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#D6A84F]/60 to-transparent" />
+
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setIsClosedModalOpen(false)}
+                            className="absolute top-5 right-5 text-[#858278] hover:text-white transition-colors cursor-pointer bg-transparent border-none focus:outline-none"
+                            title="Close"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                        </button>
+
+                        {/* Gold Lock Icon Badge */}
+                        <div className="w-13 h-13 rounded-2xl bg-[#D6A84F]/10 border border-[#D6A84F]/30 flex items-center justify-center text-[#D6A84F] mx-auto mb-4 shadow-[0_0_20px_rgba(214,168,79,0.2)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                        </div>
+
+                        {/* Eyebrow & Title */}
+                        <span className="text-[10px] font-bold text-gold-primary uppercase tracking-[0.3em] mb-1.5 block [text-shadow:0_0_10px_rgba(214,168,79,0.3)]">
+                            Application Notice
+                        </span>
+                        <h3 className="text-xl font-extrabold uppercase tracking-wide bg-gradient-to-r from-white via-white to-gold-light bg-clip-text text-transparent mb-3">
+                            Recruitments are Closed
+                        </h3>
+
+                        {/* Concise Clean Message */}
+                        <p className="text-xs sm:text-[13px] text-[#B8B5AA] leading-relaxed mb-6 font-normal">
+                            Membership applications are currently closed. Please stay tuned to our community channels for announcements on the next recruitment drive.
+                        </p>
+
+                        {/* Action Button */}
+                        <div className="flex justify-center">
+                            <button
+                                onClick={() => setIsClosedModalOpen(false)}
+                                className="bg-[#D6A84F] hover:bg-[#F0C766] text-[#0B0B0A] font-extrabold text-xs uppercase tracking-widest py-3 px-8 rounded-full cursor-pointer transition-all border-none shadow-[0_4px_20px_rgba(214,168,79,0.3)] hover:shadow-[0_6px_25px_rgba(214,168,79,0.5)]"
+                            >
+                                Got It
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
 
             {/* PUBLIC MEMBERSHIP FORM PORTAL MODAL */}
             {isModalOpen && createPortal(

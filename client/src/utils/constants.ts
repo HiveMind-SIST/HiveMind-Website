@@ -1,8 +1,10 @@
 export const HERO_TYPEWRITER_WORDS = [
-    "Computer Vision",
-    "Machine Learning",
-    "Neural Networks",
-    "Generative AI",
+  "Generative AI",
+  "Large Language Models",
+  "AI Agents",
+  "Agentic AI",
+  "Multimodal AI",
+  "Computer Vision",
+  "Robotics",
+  "Deep Learning",
 ];
-
-

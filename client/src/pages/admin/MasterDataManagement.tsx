@@ -103,7 +103,7 @@ function SearchableTechSelect({
             {isOpen && (
                 <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-                    <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#0c0c0e] border border-white/10 rounded-lg shadow-2xl z-50 max-h-[148px] overflow-y-auto p-2 space-y-1">
+                    <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#0c0c0e] border border-white/10 rounded-lg shadow-2xl z-50 max-h-[320px] overflow-y-auto p-2 space-y-1">
                         {filteredTechs.map(tech => {
                             const isChecked = selectedIds.includes(tech._id);
                             return (
@@ -214,7 +214,7 @@ function SearchableDomainSelect({
             {isOpen && (
                 <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-                    <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#0c0c0e] border border-white/10 rounded-lg shadow-2xl z-50 max-h-[148px] overflow-y-auto p-2 space-y-1">
+                    <div className="absolute top-[100%] left-0 right-0 mt-1 bg-[#0c0c0e] border border-white/10 rounded-lg shadow-2xl z-50 max-h-[320px] overflow-y-auto p-2 space-y-1">
                         {filteredDomains.map(dom => {
                             const isChecked = selectedIds.includes(dom._id);
                             return (
