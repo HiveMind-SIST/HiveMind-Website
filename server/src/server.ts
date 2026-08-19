@@ -76,15 +76,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // API Routes
-app.use("/api/v1/admin", authRoutes);
-app.use("/api/v1/team", teamRoutes);
-app.use("/api/v1/projects", projectRoutes);
-app.use("/api/v1/applications", applicationRoutes);
-app.use("/api/v1/community-settings", communitySettingsRoutes);
-app.use("/api/v1/master-data", masterDataRoutes);
-app.use("/api/v1/telemetry", telemetryRoutes);
-app.use("/api/v1/domains", domainRoutes);
-app.use("/api/v1/technologies", technologyRoutes);
+app.use("/v1/admin", authRoutes);
+app.use("/v1/team", teamRoutes);
+app.use("/v1/projects", projectRoutes);
+app.use("/v1/applications", applicationRoutes);
+app.use("/v1/community-settings", communitySettingsRoutes);
+app.use("/v1/master-data", masterDataRoutes);
+app.use("/v1/telemetry", telemetryRoutes);
+app.use("/v1/domains", domainRoutes);
+app.use("/v1/technologies", technologyRoutes);
 
 // Health Check Route (Used for Docker HEALTHCHECK and Cloudflare Tunnel verification)
 app.get(["/health", "/api/health"], (req, res) => {
